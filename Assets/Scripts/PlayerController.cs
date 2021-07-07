@@ -9,20 +9,42 @@ public class PlayerController : MonoBehaviour
     private CharacterController _controller;
     private PlayerInput _playerInput;
     private InputAction _moveAction;
-    private Vector3 _cameraForward;
+    private Quaternion _rotation;
+    private Vector2 _cachedInput = Vector2.zero;
+    private Vector3 _cachedMove = Vector3.zero;
 
     private void Start()
     {
-        _controller = GetComponent<CharacterController>();
-        _playerInput = GetComponent<PlayerInput>();
+        InitializeComponents();
         _moveAction = _playerInput.actions["Move"];
+        _rotation = GetRotationAngle(Camera.main);
+    }
+    
+    private void Update()
+    {
+        UpdateCachedValues();
+        _controller.Move(_cachedMove * (Time.deltaTime * playerSpeed));
     }
 
-    void Update()
+    private void InitializeComponents()
     {
-        var input = _moveAction.ReadValue<Vector2>(); 
-        var move = new Vector3(input.x, 0, input.y);
-        // TODO FIX MOVEMENT DIRECTION;
-        _controller.Move(move * (Time.deltaTime * playerSpeed));
+        _controller = GetComponent<CharacterController>();
+        _playerInput = GetComponent<PlayerInput>();
+    }
+    
+    private Quaternion GetRotationAngle(Component mainCamera)
+    {
+        var cameraForward = mainCamera.transform.forward.normalized;
+        var playerForward = transform.forward.normalized;
+        cameraForward.y = 0;
+        
+        return Quaternion.FromToRotation(playerForward, cameraForward);
+    }
+
+    private void UpdateCachedValues()
+    {
+        _cachedInput = _moveAction.ReadValue<Vector2>();
+        _cachedMove.Set(_cachedInput.x, 0, _cachedInput.y);
+        _cachedMove = _rotation * _cachedMove;
     }
 }

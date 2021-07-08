@@ -12,6 +12,22 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "AimPosition",
+                    "type": "Value",
+                    "id": "4603c688-b589-4e58-a3bf-79459da2d284",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AimTrigger",
+                    "type": "PassThrough",
+                    "id": "ff77c9cd-db4c-4340-8037-16bb43d3f0db",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -69,6 +85,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b9e73a4a-3857-405a-977e-66130e473d8a",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "531165bd-410f-440d-a6ed-402e4d55a48a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

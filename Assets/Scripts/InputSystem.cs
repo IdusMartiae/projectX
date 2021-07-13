@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Enums;
 using ScriptableObjects;
@@ -10,98 +11,96 @@ public class InputSystem : MonoBehaviour
     private KeyBindings _keyBindings;
     private Quaternion _worldRotation;
     private Vector3 _movementDirection = Vector3.zero;
+    private Dictionary<PlayerMovementEnum, Vector3> _movementVectors;
 
-    public Vector3 MovementDirection => _worldRotation * _movementDirection.normalized; 
-    
+    private Camera _camera;
+    private Plane _plane;
+    private float distance = 0f;
+
+    public Vector3 MovementDirection => _worldRotation * _movementDirection.normalized;
+
+    public event Action<PlayerCombatEnum, Vector3> AbilityStarted;
+    public event Action<PlayerCombatEnum, Vector3> AbilityFinished;
+
     [Inject]
-    private void Initialize(KeyBindings keyBindings)
+    private void Construct(KeyBindings keyBindings)
     {
         _keyBindings = keyBindings;
     }
 
     private void Start()
     {
+        _camera = Camera.main;
+        _plane = new Plane(Vector3.up, transform.position);
         _worldRotation = GetWorldRotation();
+        _movementVectors = GetMovementVectors();
     }
 
     public void Update()
     {
         if (Input.anyKeyDown)
         {
-            CheckForMovementDown();
+            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilityStarted);
+            CheckMovementByInputMethod(Input.GetKeyDown);
         }
 
-        if (Input.anyKey)
-        {
-            
-        }
+        CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, AbilityFinished);
+        CheckMovementByInputMethod(Input.GetKeyUp);
+    }
 
-        CheckForMovementUp();
-    }
-    
-    private void CheckForCombat(List<KeyBindingWrapper<PlayerCombatEnum>> list)
+    private void CheckActionsByInputMethod<T1>(IEnumerable<KeyBindingWrapper<T1>> actionsList,
+        Predicate<KeyCode> inputMethod, Action<T1, Vector3> callback)
     {
-    }
-    
-    private void CheckForMovementDown()
-    {
-        foreach (var move in _keyBindings.Movement)
+        foreach (var action in actionsList)
         {
-            if (Input.GetKeyDown(move.MainKey) || Input.GetKeyDown(move.AlternativeKey))
+            if (inputMethod(action.MainKey) || inputMethod(action.AlternativeKey))
             {
-                switch (move.KeyAction)
-                {
-                    case PlayerMovementEnum.Up: 
-                        _movementDirection += Vector3.forward;
-                        break;
-                    case PlayerMovementEnum.Down: 
-                        _movementDirection += Vector3.back;
-                        break;
-                    case PlayerMovementEnum.Left: 
-                        _movementDirection += Vector3.left;
-                        break;
-                    case PlayerMovementEnum.Right: 
-                        _movementDirection += Vector3.right;
-                        break;
-                    
-                }
+                callback?.Invoke(action.KeyAction, GetMouseWorldPosition());
             }
         }
     }
-    
-    private void CheckForMovementUp()
+
+    private void CheckMovementByInputMethod(Predicate<KeyCode> inputMethod)
     {
-        foreach (var move in _keyBindings.Movement)
+        var phase = inputMethod == Input.GetKeyDown ? MovementInputPhaseEnum.Down : MovementInputPhaseEnum.Up;
+
+        foreach (var movement in _keyBindings.Movement)
         {
-            if (Input.GetKeyUp(move.MainKey) || Input.GetKeyUp(move.AlternativeKey))
+            if (inputMethod(movement.MainKey) || inputMethod(movement.AlternativeKey))
             {
-                switch (move.KeyAction)
-                {
-                    case PlayerMovementEnum.Up: 
-                        _movementDirection -= Vector3.forward;
-                        break;
-                    case PlayerMovementEnum.Down: 
-                        _movementDirection -= Vector3.back;
-                        break;
-                    case PlayerMovementEnum.Left: 
-                        _movementDirection -= Vector3.left;
-                        break;
-                    case PlayerMovementEnum.Right: 
-                        _movementDirection -= Vector3.right;
-                        break;
-                    
-                }
+                _movementDirection += (int) phase * _movementVectors[movement.KeyAction];
             }
         }
     }
-    
+
     private Quaternion GetWorldRotation()
     {
-        var cameraForward = Camera.main.transform.forward.normalized;
+        var cameraForward = _camera.transform.forward.normalized;
         var playerForward = transform.forward;
-        
+
         cameraForward.y = 0;
-        
+
         return Quaternion.FromToRotation(playerForward, cameraForward);
+    }
+
+    private Dictionary<PlayerMovementEnum, Vector3> GetMovementVectors()
+    {
+        var dictionary = new Dictionary<PlayerMovementEnum, Vector3>
+        {
+            {PlayerMovementEnum.Forward, Vector3.forward},
+            {PlayerMovementEnum.Back, Vector3.back},
+            {PlayerMovementEnum.Left, Vector3.left},
+            {PlayerMovementEnum.Right, Vector3.right}
+        };
+
+        return dictionary;
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        var ray = _camera.ScreenPointToRay(Input.mousePosition);
+        _plane.Raycast(ray, out distance);
+
+        return ray.GetPoint(distance);
     }
 }

@@ -6,13 +6,13 @@ namespace Installers
 {
     public class InputSystemInstaller : MonoInstaller
     {
-        [SerializeField] private KeyBindings keyBindings;
         [SerializeField] private InputSystem inputSystem;
+        [SerializeField] private KeyBindings keyBindings;
 
         public override void InstallBindings()
         {
             Container.BindInstance(inputSystem).AsSingle();
-            Container.BindInstance(keyBindings);
+            Container.BindInstance(keyBindings).AsSingle();
         }
     }
 }

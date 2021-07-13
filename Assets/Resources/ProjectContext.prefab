@@ -74,8 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c500aade7b67240bd82af48eb5aefe3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyBindings: {fileID: 11400000, guid: dedf38088f5c0448e9586161e1234c02, type: 2}
   inputSystem: {fileID: 5903046915858538048}
+  keyBindings: {fileID: 11400000, guid: dedf38088f5c0448e9586161e1234c02, type: 2}
 --- !u!1 &7475351611369270372
 GameObject:
   m_ObjectHideFlags: 0

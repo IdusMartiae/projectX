@@ -1,31 +1,24 @@
 using UnityEngine;
-using Zenject;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController;
-    [SerializeField] private float playerSpeed = 10f;
-
-    private InputSystem _inputSystem;
-
-    [Inject]
-    private void Initialize(InputSystem inputSystem)
-    {
-        _inputSystem = inputSystem;
-    }
-
-    private void Start()
-    {
-    }
     
     private void Update()
     {
-        
-        MovePlayer();
-    }
 
-    private void MovePlayer()
-    {
-        characterController.Move(_inputSystem.MovementDirection * (Time.deltaTime * playerSpeed));
     }
+    
+    /*private void GetDirectionFromPlane()
+   {
+       
+           var forwardDirection = (hitPoint - transform.position).normalized;
+           forwardDirection.y = 0;
+           //Debug.Log($"Mouse position:{Input.mousePosition}; Current forward {transform.forward}; New forward {forwardDirection}");
+           transform.forward = Vector3.RotateTowards(transform.forward,
+               forwardDirection,
+               Time.deltaTime * playerSpeed,
+               0);
+       }
+   }*/
+
 }

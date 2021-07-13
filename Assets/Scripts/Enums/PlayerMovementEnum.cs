@@ -2,8 +2,8 @@ namespace Enums
 {
     public enum PlayerMovementEnum
     {
-        Up,
-        Down,
+        Forward,
+        Back,
         Left,
         Right
     }

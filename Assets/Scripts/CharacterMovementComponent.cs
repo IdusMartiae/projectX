@@ -1,26 +1,43 @@
 using ScriptableObjects;
 using UnityEngine;
-using Zenject;
 
-public class CharacterMovementComponent : MonoBehaviour
+public class CharacterMovementComponent
 {
-    [SerializeField] private CharacterController controller;
-    
+    private Transform _transform;
+    private CharacterController _controller;
     private InputSystem _inputSystem;
     private CharacterMovementSettings _movementSettings;
-
-    [Inject]
-    private void Construct(InputSystem inputSystem, CharacterMovementSettings movementSettings)
+    
+    private CharacterMovementComponent(Transform transform, CharacterController controller, InputSystem inputSystem,
+        CharacterMovementSettings movementSettings)
     {
+        _transform = transform;
+        _controller = controller;
         _inputSystem = inputSystem;
         _movementSettings = movementSettings;
     }
     
-    private void Update()
+    public void Update(bool movementBlocked, bool lookAtMouse)
     {
-        controller.Move(_inputSystem.MovementDirection * (Time.deltaTime * _movementSettings.Speed));
-        transform.forward = Vector3.RotateTowards(transform.forward, _inputSystem.MovementDirection,
+        if (!movementBlocked)
+        {
+            _controller.Move(_inputSystem.MovementDirection * (Time.deltaTime * _movementSettings.Speed));
+        }
+        
+        RotateCharacter(lookAtMouse);
+    }
+
+    private void RotateCharacter(bool lookAtMouse)
+    {
+        var lookAtDirection = _inputSystem.MovementDirection;
+        
+        if (lookAtMouse)
+        { 
+            lookAtDirection = (_inputSystem.MousePosition - _transform.position).normalized;
+            lookAtDirection.y = 0;
+        }
+        
+        _transform.forward = Vector3.RotateTowards(_transform.forward, lookAtDirection,
             Time.deltaTime * _movementSettings.AngularSpeed, 0);
     }
-    
 }

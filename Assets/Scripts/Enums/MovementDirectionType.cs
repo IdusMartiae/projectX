@@ -1,6 +1,6 @@
 namespace Enums
 {
-    public enum PlayerMovementEnum
+    public enum MovementDirectionType
     {
         Forward,
         Back,

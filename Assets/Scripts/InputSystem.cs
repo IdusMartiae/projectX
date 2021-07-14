@@ -11,16 +11,16 @@ public class InputSystem : MonoBehaviour
     private KeyBindings _keyBindings;
     private Quaternion _worldRotation;
     private Vector3 _movementDirection = Vector3.zero;
-    private Dictionary<PlayerMovementEnum, Vector3> _movementVectors;
+    private Dictionary<MovementDirectionType, Vector3> _movementVectors;
 
     private Camera _camera;
     private Plane _plane;
     private float distance = 0f;
 
     public Vector3 MovementDirection => _worldRotation * _movementDirection.normalized;
-
-    public event Action<PlayerCombatEnum, Vector3> AbilityStarted;
-    public event Action<PlayerCombatEnum, Vector3> AbilityFinished;
+    public Vector3 MousePosition => GetMouseWorldPosition();
+    public event Action<AbilitySlotType> AbilityStarted;
+    public event Action<AbilitySlotType> AbilityFinished;
 
     [Inject]
     private void Construct(KeyBindings keyBindings)
@@ -49,20 +49,20 @@ public class InputSystem : MonoBehaviour
     }
 
     private void CheckActionsByInputMethod<T1>(IEnumerable<KeyBindingWrapper<T1>> actionsList,
-        Predicate<KeyCode> inputMethod, Action<T1, Vector3> callback)
+        Predicate<KeyCode> inputMethod, Action<T1> callback)
     {
         foreach (var action in actionsList)
         {
             if (inputMethod(action.MainKey) || inputMethod(action.AlternativeKey))
             {
-                callback?.Invoke(action.KeyAction, GetMouseWorldPosition());
+                callback?.Invoke(action.KeyAction);
             }
         }
     }
 
     private void CheckMovementByInputMethod(Predicate<KeyCode> inputMethod)
     {
-        var phase = inputMethod == Input.GetKeyDown ? MovementInputPhaseEnum.Down : MovementInputPhaseEnum.Up;
+        var phase = inputMethod == Input.GetKeyDown ? InputPhaseType.Down : InputPhaseType.Up;
 
         foreach (var movement in _keyBindings.Movement)
         {
@@ -83,14 +83,14 @@ public class InputSystem : MonoBehaviour
         return Quaternion.FromToRotation(playerForward, cameraForward);
     }
 
-    private Dictionary<PlayerMovementEnum, Vector3> GetMovementVectors()
+    private Dictionary<MovementDirectionType, Vector3> GetMovementVectors()
     {
-        var dictionary = new Dictionary<PlayerMovementEnum, Vector3>
+        var dictionary = new Dictionary<MovementDirectionType, Vector3>
         {
-            {PlayerMovementEnum.Forward, Vector3.forward},
-            {PlayerMovementEnum.Back, Vector3.back},
-            {PlayerMovementEnum.Left, Vector3.left},
-            {PlayerMovementEnum.Right, Vector3.right}
+            {MovementDirectionType.Forward, Vector3.forward},
+            {MovementDirectionType.Back, Vector3.back},
+            {MovementDirectionType.Left, Vector3.left},
+            {MovementDirectionType.Right, Vector3.right}
         };
 
         return dictionary;

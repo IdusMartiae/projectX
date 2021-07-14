@@ -2,12 +2,20 @@ using ScriptableObjects;
 using UnityEngine;
 using Zenject;
 
-public class CharacterMovementComponentInstaller : MonoInstaller
+namespace Installers
 {
-    [SerializeField] private CharacterMovementSettings movementSettings;
-    
-    public override void InstallBindings()
+    public class CharacterMovementComponentInstaller : MonoInstaller
     {
-        Container.BindInstance(movementSettings).AsSingle();
+        [SerializeField] private Transform player;
+        [SerializeField] private CharacterMovementSettings movementSettings;
+    
+        public override void InstallBindings()
+        {
+            Container.BindInstance(player).WhenInjectedInto<CharacterMovementComponent>();
+            Container.BindInstance(player.GetComponent<CharacterController>())
+                .WhenInjectedInto<CharacterMovementComponent>();
+            Container.BindInstance(movementSettings);
+            Container.Bind<CharacterMovementComponent>().AsSingle();
+        }
     }
 }

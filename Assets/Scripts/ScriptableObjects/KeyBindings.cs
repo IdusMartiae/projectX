@@ -9,11 +9,11 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "KeyBindings", menuName = "Scriptable Objects/Key Bindings")]
     public class KeyBindings : ScriptableObject
     {
-        [SerializeField] private List<KeyBindingWrapper<PlayerMovementEnum>> movement;
-        [SerializeField] private List<KeyBindingWrapper<PlayerCombatEnum>> combat;
+        [SerializeField] private List<KeyBindingWrapper<MovementDirectionType>> movement;
+        [SerializeField] private List<KeyBindingWrapper<AbilitySlotType>> combat;
 
-        public List<KeyBindingWrapper<PlayerMovementEnum>> Movement => movement;
+        public List<KeyBindingWrapper<MovementDirectionType>> Movement => movement;
 
-        public List<KeyBindingWrapper<PlayerCombatEnum>> Combat => combat;
+        public List<KeyBindingWrapper<AbilitySlotType>> Combat => combat;
     }
 }

@@ -1,9 +1,9 @@
 namespace Enums
 {
-    public enum PlayerCombatEnum
+    public enum AbilitySlotType
     {
-        PrimaryAttack,
-        SecondaryAttack,
+        PrimaryAbilitySlot,
+        SecondaryAbilitySlot,
         AbilitySlot1,
         AbilitySlot2,
         AbilitySlot3,

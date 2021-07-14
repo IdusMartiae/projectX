@@ -1,15 +1,28 @@
 using System.Collections.Generic;
 using Enums;
 using UnityEngine;
+using Wrappers;
 
 public class CharacterAbilitiesComponent
 {
-    private readonly Dictionary<AbilitySlotType, BaseAbility> _abilitySlots = new Dictionary<AbilitySlotType, BaseAbility>();
+    private readonly Dictionary<AbilitySlotType, AbilitySlotWrapper> _abilitySlots =
+        new Dictionary<AbilitySlotType, AbilitySlotWrapper>(
+        );
     private readonly InputSystem _inputSystem;
     
     // delete this after testing
     public BaseAbility CurrentAbility;
 
+    public BaseAbility Update()
+    {
+        foreach (var abilitySlot in _abilitySlots)
+        {
+            abilitySlot.Value.UpdateCooldownTimer();
+        }
+
+        //return;
+    }
+    
     private CharacterAbilitiesComponent(InputSystem inputSystem)
     {
         _inputSystem = inputSystem;
@@ -22,30 +35,29 @@ public class CharacterAbilitiesComponent
     private void HandleAbilityStart(AbilitySlotType abilitySlot)
     {
         Debug.Log($"Pressed {abilitySlot} button");
-        _abilitySlots[abilitySlot].Start();
-        CurrentAbility = _abilitySlots[abilitySlot];
     }
     
     private void HandleAbilityFinish(AbilitySlotType abilitySlot)
     {
         Debug.Log($"{abilitySlot} released");
-        _abilitySlots[abilitySlot].Finish();
         CurrentAbility = null;
     }
 
     private void InitializeAbilitySlots()
     {
-        _abilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot,new MockAbility1());
-        _abilitySlots.Add(AbilitySlotType.SecondaryAbilitySlot,new MockAbility2());
+        _abilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot,new AbilitySlotWrapper(new MockAbility1()));
+        _abilitySlots.Add(AbilitySlotType.SecondaryAbilitySlot,new AbilitySlotWrapper(new MockAbility2()));
     }
     
     // Mock abilities for testing
     internal class MockAbility1 : BaseAbility
     {
-        public override string Name { get; set; }
-        public override string IconPath { get; set; }
-        public override bool MovementBlocking { get; set; }
-        public override bool Aimed { get; set; }
+        public sealed override string Name { get; set; }
+        public sealed override string IconPath { get; set; }
+        public sealed override bool MovementBlocking { get; set; }
+        public sealed override bool Aimed { get; set; }
+        public sealed override float Duration { get; set; }
+        public sealed override float Cooldown { get; set; }
 
         internal MockAbility1()
         {
@@ -53,6 +65,8 @@ public class CharacterAbilitiesComponent
             IconPath = "/1.png";
             MovementBlocking = false;
             Aimed = true;
+            Duration = 0.1f;
+            Cooldown = 0.5f;
         }
         
         public override void Start()
@@ -73,7 +87,9 @@ public class CharacterAbilitiesComponent
         public sealed override string IconPath { get; set; }
         public sealed override bool MovementBlocking { get; set; }
         public sealed override bool Aimed { get; set; }
-        
+        public override float Duration { get; set; }
+        public override float Cooldown { get; set; }
+
         internal MockAbility2()
         {
             Name = "MockAbility2";

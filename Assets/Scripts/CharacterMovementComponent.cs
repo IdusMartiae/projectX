@@ -8,7 +8,10 @@ public class CharacterMovementComponent
     private InputSystem _inputSystem;
     private CharacterMovementSettings _movementSettings;
     
-    private CharacterMovementComponent(Transform transform, CharacterController controller, InputSystem inputSystem,
+    private CharacterMovementComponent(
+        Transform transform, 
+        CharacterController controller, 
+        InputSystem inputSystem,
         CharacterMovementSettings movementSettings)
     {
         _transform = transform;

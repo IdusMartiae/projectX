@@ -9,6 +9,7 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "KeyBindings", menuName = "Scriptable Objects/Key Bindings")]
     public class KeyBindings : ScriptableObject
     {
+        // TODO REPLACE WITH CONTAINER CLASS
         [SerializeField] private List<KeyBindingWrapper<MovementDirectionType>> movement;
         [SerializeField] private List<KeyBindingWrapper<AbilitySlotType>> combat;
 

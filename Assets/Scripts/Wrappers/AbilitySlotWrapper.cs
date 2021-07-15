@@ -4,17 +4,13 @@ namespace Wrappers
 {
     public class AbilitySlotWrapper
     {
-        private BaseAbility _slotAbility;
         private float _cooldownTimer;
+
+        public BaseAbility SlotAbility { get; set; }
 
         public AbilitySlotWrapper(BaseAbility ability)
         {
-            _slotAbility = ability;
-        }
-        
-        public void ChangeSlotAbility(BaseAbility ability)
-        {
-            _slotAbility = ability;
+            SlotAbility = ability;
         }
 
         public void UpdateCooldownTimer()
@@ -30,7 +26,7 @@ namespace Wrappers
         {
             if (_cooldownTimer == 0)
             {
-                _slotAbility.Start();
+                SlotAbility.Start();
             }
         }
     }

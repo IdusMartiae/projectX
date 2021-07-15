@@ -15,7 +15,7 @@ public class InputSystem : MonoBehaviour
 
     private Camera _camera;
     private Plane _plane;
-    private float distance = 0f;
+    private float _distance = 0f;
 
     public Vector3 MovementDirection => _worldRotation * _movementDirection.normalized;
     public Vector3 MousePosition => GetMouseWorldPosition();
@@ -99,8 +99,8 @@ public class InputSystem : MonoBehaviour
     private Vector3 GetMouseWorldPosition()
     {
         var ray = _camera.ScreenPointToRay(Input.mousePosition);
-        _plane.Raycast(ray, out distance);
+        _plane.Raycast(ray, out _distance);
 
-        return ray.GetPoint(distance);
+        return ray.GetPoint(_distance);
     }
 }

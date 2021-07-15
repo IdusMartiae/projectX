@@ -1,46 +1,103 @@
 using ScriptableObjects;
+using StateMachines;
+using StateMachines.Decisions;
+using StateMachines.States.CharacterAim;
+using StateMachines.States.CharacterMovement;
+using StateMachines.Transitions;
 using UnityEngine;
+using Zenject;
 
-public class CharacterMovementComponent
+[RequireComponent(typeof(CharacterController))]
+public class CharacterMovementComponent : MonoBehaviour
 {
-    private Transform _transform;
     private CharacterController _controller;
     private InputSystem _inputSystem;
     private CharacterMovementSettings _movementSettings;
-    
-    private CharacterMovementComponent(
-        Transform transform, 
-        CharacterController controller, 
-        InputSystem inputSystem,
-        CharacterMovementSettings movementSettings)
+
+    private StateMachine _movementStateMachine;
+    private StateMachine _aimingStateMachine;
+
+    [Inject]
+    private void Construct(InputSystem inputSystem, CharacterMovementSettings movementSettings)
     {
-        _transform = transform;
-        _controller = controller;
         _inputSystem = inputSystem;
         _movementSettings = movementSettings;
     }
-    
-    public void Update(bool movementBlocked, bool lookAtMouse)
+
+    private void Awake()
     {
-        if (!movementBlocked)
-        {
-            _controller.Move(_inputSystem.MovementDirection * (Time.deltaTime * _movementSettings.Speed));
-        }
-        
-        RotateCharacter(lookAtMouse);
+        _controller = GetComponent<CharacterController>();
+        InitializeStateMachines();
     }
 
-    private void RotateCharacter(bool lookAtMouse)
+    public void Update()
     {
-        var lookAtDirection = _inputSystem.MovementDirection;
-        
-        if (lookAtMouse)
-        { 
-            lookAtDirection = (_inputSystem.MousePosition - _transform.position).normalized;
-            lookAtDirection.y = 0;
-        }
-        
-        _transform.forward = Vector3.RotateTowards(_transform.forward, lookAtDirection,
-            Time.deltaTime * _movementSettings.AngularSpeed, 0);
+        _movementStateMachine.Update();
+        _aimingStateMachine.Update();
+    }
+
+    private void InitializeStateMachines()
+    {
+        var staticState = new StaticState();
+        var movingState = new MovingState(_controller, _movementSettings, _inputSystem);
+        var movementBlockedState = new MovementBlockedState();
+
+        staticState.AddTransition(new Transition(movingState, new MovementButtonDownDecision(_inputSystem)));
+        movingState.AddTransition(new Transition(staticState, new MovementButtonUpDecision(_inputSystem)));
+
+        var playerTransform = transform;
+        var faceForwardState = new FaceForwardState(playerTransform, _movementSettings, _inputSystem);
+        var lookAtMouse = new LookAtMouseState(playerTransform, _movementSettings, _inputSystem);
+
+        _movementStateMachine = new StateMachine(staticState);
+        _aimingStateMachine = new StateMachine(faceForwardState);
+
+        var abilityComponent = GetComponent<CharacterAbilitiesComponent>();
+
+        // ADD ABILITY TRANSITIONS IF ABILITY COMPONENT IS PRESENT
+        if (abilityComponent == null) return;
+
+        var usedBlockingAbility = new BlockingAbilityUsedDecision(_inputSystem, abilityComponent);
+
+        movementBlockedState.AddTransition(
+            new Transition(
+                movingState,
+                new BlockingAbilityCancelledDecision(
+                    _inputSystem,
+                    abilityComponent)
+            )
+        );
+
+        movingState.AddTransition(
+            new Transition(
+                movementBlockedState,
+                usedBlockingAbility
+            )
+        );
+
+        staticState.AddTransition(
+            new Transition(
+                movementBlockedState,
+                usedBlockingAbility
+            )
+        );
+
+        faceForwardState.AddTransition(
+            new Transition(
+                lookAtMouse,
+                new AimedAbilityUsedDecision(
+                    _inputSystem,
+                    abilityComponent)
+            )
+        );
+
+        lookAtMouse.AddTransition(
+            new Transition(
+                faceForwardState,
+                new AimedAbilityCancelledDecision(
+                    _inputSystem,
+                    abilityComponent)
+            )
+        );
     }
 }

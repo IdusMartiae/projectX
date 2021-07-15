@@ -1,23 +1,22 @@
 using UnityEngine;
-using Zenject;
 
 public class Player : MonoBehaviour
 {
-    private CharacterMovementComponent _movementComponent;
-    private CharacterAbilitiesComponent _abilitiesComponent;
+    /*private CharacterMovementComponent _movementComponent;
+    private CharacterAbilitiesComponent _abilitiesComponent;*/
 
-    [Inject]
+    /*[Inject]
     private void Construct(
         CharacterMovementComponent movementComponent,
         CharacterAbilitiesComponent abilitiesComponent)
     {
         _movementComponent = movementComponent;
         _abilitiesComponent = abilitiesComponent;
-    }
+    }*/
 
     private void Update()
     {
-        if (_abilitiesComponent.CurrentAbility != null)
+        /*if (_abilitiesComponent.CurrentAbility != null)
         {
             _movementComponent.Update(
                 _abilitiesComponent.CurrentAbility.MovementBlocking,
@@ -26,6 +25,6 @@ public class Player : MonoBehaviour
         else
         {
             _movementComponent.Update(false, false);
-        }
+        }*/
     }
 }

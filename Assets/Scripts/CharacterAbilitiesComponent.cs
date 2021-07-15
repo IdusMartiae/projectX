@@ -1,56 +1,56 @@
+using System;
 using System.Collections.Generic;
 using Enums;
 using UnityEngine;
 using Wrappers;
+using Zenject;
 
-public class CharacterAbilitiesComponent
+public class CharacterAbilitiesComponent : MonoBehaviour
 {
-    private readonly Dictionary<AbilitySlotType, AbilitySlotWrapper> _abilitySlots =
-        new Dictionary<AbilitySlotType, AbilitySlotWrapper>(
-        );
-    private readonly InputSystem _inputSystem;
-    
-    // delete this after testing
-    public BaseAbility CurrentAbility;
+    public readonly Dictionary<AbilitySlotType, AbilitySlotWrapper> _abilitySlots =
+        new Dictionary<AbilitySlotType, AbilitySlotWrapper>();
 
-    public BaseAbility Update()
+    private InputSystem _inputSystem;
+    
+    [Inject]
+    private void Construct(InputSystem inputSystem)
+    {
+        _inputSystem = inputSystem;
+        _inputSystem.AbilityStarted += HandleAbilityStart;
+        _inputSystem.AbilityFinished += HandleAbilityFinish;
+    }
+
+    private void Start()
+    {
+        InitializeAbilitySlots();
+    }
+
+    public void Update()
     {
         foreach (var abilitySlot in _abilitySlots)
         {
             abilitySlot.Value.UpdateCooldownTimer();
         }
-
-        //return;
     }
     
-    private CharacterAbilitiesComponent(InputSystem inputSystem)
-    {
-        _inputSystem = inputSystem;
-        _inputSystem.AbilityStarted += HandleAbilityStart;
-        _inputSystem.AbilityFinished += HandleAbilityFinish;
-        
-        InitializeAbilitySlots();
-    }
-
     private void HandleAbilityStart(AbilitySlotType abilitySlot)
     {
         Debug.Log($"Pressed {abilitySlot} button");
     }
-    
+
     private void HandleAbilityFinish(AbilitySlotType abilitySlot)
     {
         Debug.Log($"{abilitySlot} released");
-        CurrentAbility = null;
     }
 
     private void InitializeAbilitySlots()
     {
-        _abilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot,new AbilitySlotWrapper(new MockAbility1()));
-        _abilitySlots.Add(AbilitySlotType.SecondaryAbilitySlot,new AbilitySlotWrapper(new MockAbility2()));
+        _abilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot, new AbilitySlotWrapper(new MockAbility1()));
+        _abilitySlots.Add(AbilitySlotType.SecondaryAbilitySlot, new AbilitySlotWrapper(new MockAbility2()));
     }
-    
+
     // Mock abilities for testing
-    internal class MockAbility1 : BaseAbility
+    private class MockAbility1 : BaseAbility
     {
         public sealed override string Name { get; set; }
         public sealed override string IconPath { get; set; }
@@ -64,11 +64,11 @@ public class CharacterAbilitiesComponent
             Name = "MockAbility1";
             IconPath = "/1.png";
             MovementBlocking = false;
-            Aimed = true;
+            Aimed = false;
             Duration = 0.1f;
             Cooldown = 0.5f;
         }
-        
+
         public override void Start()
         {
             Debug.Log($"Started {Name} ability, icon at '{IconPath}'");
@@ -81,7 +81,7 @@ public class CharacterAbilitiesComponent
         }
     }
 
-    internal class MockAbility2 : BaseAbility
+    private class MockAbility2 : BaseAbility
     {
         public sealed override string Name { get; set; }
         public sealed override string IconPath { get; set; }

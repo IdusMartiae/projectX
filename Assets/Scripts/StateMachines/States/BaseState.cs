@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using StateMachines.Transitions;
 
 namespace StateMachines.States
@@ -27,9 +26,14 @@ namespace StateMachines.States
 
         public BaseState CheckTransitions()
         {
-            foreach (var transition in _transitions.Where(transition => transition.IsTransitionNeeded()))
+            foreach (var transition in _transitions)
             {
-                return transition.TransitionState;
+                var nextState = transition.GetNextState();
+                if ( nextState != this)
+                {
+                    return nextState;
+                }
+                
             }
 
             return this;

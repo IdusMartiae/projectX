@@ -4,6 +4,7 @@ namespace Wrappers
 {
     public class AbilitySlotWrapper
     {
+        private bool _isActilve;
         private float _cooldownTimer;
 
         public BaseAbility SlotAbility { get; set; }
@@ -19,6 +20,7 @@ namespace Wrappers
             if (_cooldownTimer < 0 )
             {
                 _cooldownTimer = 0f;
+                _isActilve = true;
             }
         }
 
@@ -28,6 +30,11 @@ namespace Wrappers
             {
                 SlotAbility.Start();
             }
+        }
+
+        public void AbilityRelease()
+        {
+            SlotAbility.Finish();
         }
     }
 }

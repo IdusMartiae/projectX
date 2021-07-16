@@ -24,7 +24,7 @@ namespace StateMachines
             _currentState.Update();
         }
 
-        private void ChangeState(BaseState nextState)
+        protected virtual void ChangeState(BaseState nextState)
         {
             _currentState.OnStateExit();
             nextState.OnStateEnter();

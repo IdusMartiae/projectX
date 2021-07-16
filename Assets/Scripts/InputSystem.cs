@@ -19,8 +19,8 @@ public class InputSystem : MonoBehaviour
 
     public Vector3 MovementDirection => _worldRotation * _movementDirection.normalized;
     public Vector3 MousePosition => GetMouseWorldPosition();
-    public event Action<AbilitySlotType> AbilityStarted;
-    public event Action<AbilitySlotType> AbilityFinished;
+    public event Action<AbilitySlotType> AbilitySlotPressed;
+    public event Action<AbilitySlotType> AbilitySlotReleased;
 
     [Inject]
     private void Construct(KeyBindings keyBindings)
@@ -40,11 +40,11 @@ public class InputSystem : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilityStarted);
+            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilitySlotPressed);
             CheckMovementByInputMethod(Input.GetKeyDown);
         }
 
-        CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, AbilityFinished);
+        CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, AbilitySlotReleased);
         CheckMovementByInputMethod(Input.GetKeyUp);
     }
 

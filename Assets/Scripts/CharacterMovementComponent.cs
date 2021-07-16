@@ -1,6 +1,7 @@
 using ScriptableObjects;
 using StateMachines;
-using StateMachines.Decisions;
+using StateMachines.Decisions.AimDecisions;
+using StateMachines.Decisions.MovementDecisions;
 using StateMachines.States.CharacterAim;
 using StateMachines.States.CharacterMovement;
 using StateMachines.Transitions;
@@ -38,12 +39,24 @@ public class CharacterMovementComponent : MonoBehaviour
 
     private void InitializeStateMachines()
     {
-        var staticState = new StaticState();
-        var movingState = new MovingState(_controller, _movementSettings, _inputSystem);
+        var staticState = new StaticState(gameObject.GetComponent<Animator>());
+        var movingState = new MovingState(
+            _controller,
+            _movementSettings,
+            _inputSystem,
+            gameObject.GetComponent<Animator>());
         var movementBlockedState = new MovementBlockedState();
 
-        staticState.AddTransition(new Transition(movingState, new MovementButtonDownDecision(_inputSystem)));
-        movingState.AddTransition(new Transition(staticState, new MovementButtonUpDecision(_inputSystem)));
+        staticState.AddTransition(new Transition(
+            movingState,
+            staticState,
+            new MovementButtonDownDecision(_inputSystem))
+        );
+        movingState.AddTransition(new Transition(
+            staticState,
+            movingState,
+            new MovementButtonUpDecision(_inputSystem))
+        );
 
         var playerTransform = transform;
         var faceForwardState = new FaceForwardState(playerTransform, _movementSettings, _inputSystem);
@@ -52,52 +65,37 @@ public class CharacterMovementComponent : MonoBehaviour
         _movementStateMachine = new StateMachine(staticState);
         _aimingStateMachine = new StateMachine(faceForwardState);
 
-        var abilityComponent = GetComponent<CharacterAbilitiesComponent>();
+        var abilityComponent = GetComponent<CharacterAbilitySlotsComponent>();
 
-        // ADD ABILITY TRANSITIONS IF ABILITY COMPONENT IS PRESENT
+        // ADD ADDITIONAL TRANSITIONS IF ABILITY COMPONENT IS PRESENT
         if (abilityComponent == null) return;
 
         var usedBlockingAbility = new BlockingAbilityUsedDecision(_inputSystem, abilityComponent);
 
-        movementBlockedState.AddTransition(
-            new Transition(
-                movingState,
-                new BlockingAbilityCancelledDecision(
-                    _inputSystem,
-                    abilityComponent)
-            )
+        movementBlockedState.AddTransition(new Transition(
+            movingState, 
+            movementBlockedState, 
+            new BlockingAbilityCancelledDecision(_inputSystem, abilityComponent))
         );
-
-        movingState.AddTransition(
-            new Transition(
-                movementBlockedState,
-                usedBlockingAbility
-            )
+        movingState.AddTransition(new Transition(
+            movementBlockedState, 
+            movingState, 
+            usedBlockingAbility)
         );
-
-        staticState.AddTransition(
-            new Transition(
-                movementBlockedState,
-                usedBlockingAbility
-            )
+        staticState.AddTransition(new Transition(
+            movementBlockedState, 
+            staticState, 
+            usedBlockingAbility)
         );
-
-        faceForwardState.AddTransition(
-            new Transition(
+        faceForwardState.AddTransition(new Transition(
                 lookAtMouse,
-                new AimedAbilityUsedDecision(
-                    _inputSystem,
-                    abilityComponent)
-            )
-        );
-
-        lookAtMouse.AddTransition(
-            new Transition(
                 faceForwardState,
-                new AimedAbilityCancelledDecision(
-                    _inputSystem,
-                    abilityComponent)
-            )
+                new AimedAbilityUsedDecision(_inputSystem, abilityComponent))
+        );
+        lookAtMouse.AddTransition(new Transition(
+                faceForwardState,
+                lookAtMouse,
+                new AimedAbilityCancelledDecision(_inputSystem, abilityComponent))
         );
     }
 }

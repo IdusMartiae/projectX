@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CharacterMovementSettings
   m_EditorClassIdentifier: 
   speed: 10
-  angularSpeed: 15
+  angularSpeed: 10

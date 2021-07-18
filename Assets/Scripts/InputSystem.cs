@@ -8,6 +8,7 @@ using Zenject;
 
 public class InputSystem : MonoBehaviour
 {
+    // TODO: can be separated by responsibilities
     private KeyBindings _keyBindings;
     private Quaternion _worldRotation;
     private Vector3 _movementDirection = Vector3.zero;

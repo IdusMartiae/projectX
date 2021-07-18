@@ -14,6 +14,7 @@ public class VirtualCamera : MonoBehaviour
 
     private void Start()
     {
+        // TODO: do you need script for that?
         var cinemachineVCam = GetComponent<CinemachineVirtualCamera>();
         cinemachineVCam.Follow = _playerTransform;
         cinemachineVCam.LookAt = _playerTransform;

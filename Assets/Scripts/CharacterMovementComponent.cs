@@ -14,7 +14,7 @@ public class CharacterMovementComponent : MonoBehaviour
     private CharacterController _controller;
     private InputSystem _inputSystem;
     private CharacterMovementSettings _movementSettings;
-
+        
     private StateMachine _movementStateMachine;
     private StateMachine _aimingStateMachine;
 
@@ -45,7 +45,7 @@ public class CharacterMovementComponent : MonoBehaviour
             _movementSettings,
             _inputSystem,
             gameObject.GetComponent<Animator>());
-        var movementBlockedState = new MovementBlockedState();
+        var movementBlockedState = new MovementBlockedState(gameObject.GetComponent<Animator>());
 
         staticState.AddTransition(new Transition(
             movingState,

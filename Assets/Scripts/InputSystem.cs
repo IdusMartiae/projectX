@@ -8,18 +8,30 @@ using Zenject;
 
 public class InputSystem : MonoBehaviour
 {
-    // TODO: can be separated by responsibilities
     private KeyBindings _keyBindings;
-    private Quaternion _worldRotation;
-    private Vector3 _movementDirection = Vector3.zero;
-    private Dictionary<MovementDirectionType, Vector3> _movementVectors;
+    private GlobalRotation _globalRotation;
+    private MouseToWorldConverter _mouseToWorldConverter;
+    private AxisToMovementConverter _axisToMovementConverter;
+    
+    private float _verticalAxis;
+    private float _horizontalAxis;
+    private readonly Dictionary<AxisButtonType, float> _axisFloats = new Dictionary<AxisButtonType, float>
+    {
+        {
+            AxisButtonType.Positive, 1.0f
+        },
+        {
+            AxisButtonType.Negative, -1.0f
+        }
+    };
 
-    private Camera _camera;
-    private Plane _plane;
-    private float _distance = 0f;
-
-    public Vector3 MovementDirection => _worldRotation * _movementDirection.normalized;
-    public Vector3 MousePosition => GetMouseWorldPosition();
+    public Vector3 MovementDirection =>
+        _globalRotation.WorldRotation *
+        _axisToMovementConverter.GetMovementDirection(
+            _horizontalAxis,
+            _verticalAxis);
+    public Vector3 MousePosition => _mouseToWorldConverter.GetWorldCoordinates(Input.mousePosition);
+    
     public event Action<AbilitySlotType> AbilitySlotPressed;
     public event Action<AbilitySlotType> AbilitySlotReleased;
 
@@ -31,26 +43,31 @@ public class InputSystem : MonoBehaviour
 
     private void Start()
     {
-        _camera = Camera.main;
-        _plane = new Plane(Vector3.up, transform.position);
-        _worldRotation = GetWorldRotation();
-        _movementVectors = GetMovementVectors();
+        var mainCamera = Camera.main;
+        var player = transform;
+        
+        _mouseToWorldConverter = new MouseToWorldConverter(mainCamera, player);
+        _globalRotation = new GlobalRotation(mainCamera!.transform, player);
+        _axisToMovementConverter = new AxisToMovementConverter();
     }
 
     public void Update()
     {
-        if (Input.anyKeyDown)
-        {
-            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilitySlotPressed);
-            CheckMovementByInputMethod(Input.GetKeyDown);
-        }
-
+        CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyUp, ref _horizontalAxis);
+        CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyUp, ref _verticalAxis);
         CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, AbilitySlotReleased);
-        CheckMovementByInputMethod(Input.GetKeyUp);
+
+        // Return from method if there isn't any keys pressed
+        if (!Input.anyKeyDown) return;
+        CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilitySlotPressed);
+        CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyDown, ref _horizontalAxis);
+        CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyDown, ref _verticalAxis);
     }
 
-    private void CheckActionsByInputMethod<T1>(IEnumerable<KeyBindingWrapper<T1>> actionsList,
-        Predicate<KeyCode> inputMethod, Action<T1> callback)
+    private void CheckActionsByInputMethod<T1>(
+        IEnumerable<KeyBindingWrapper<T1>> actionsList,
+        Predicate<KeyCode> inputMethod, 
+        Action<T1> callback)
     {
         foreach (var action in actionsList)
         {
@@ -61,47 +78,20 @@ public class InputSystem : MonoBehaviour
         }
     }
 
-    private void CheckMovementByInputMethod(Predicate<KeyCode> inputMethod)
+    private void CheckAxisByInputMethod(
+        IEnumerable<KeyBindingWrapper<AxisButtonType>> axisButtons,
+        Predicate<KeyCode> inputMethod,
+        ref float axis)
     {
-        var phase = inputMethod == Input.GetKeyDown ? InputPhaseType.Down : InputPhaseType.Up;
-
-        foreach (var movement in _keyBindings.Movement)
+        var phase = inputMethod == Input.GetKeyUp ? InputPhaseType.Up : InputPhaseType.Down;
+        
+        foreach (var axisButton in axisButtons)
         {
-            if (inputMethod(movement.MainKey) || inputMethod(movement.AlternativeKey))
+            if (inputMethod(axisButton.MainKey) || inputMethod(axisButton.AlternativeKey))
             {
-                _movementDirection += (int) phase * _movementVectors[movement.KeyAction];
+                axis += (int)phase * _axisFloats[axisButton.KeyAction];
             }
         }
     }
 
-    private Quaternion GetWorldRotation()
-    {
-        var cameraForward = _camera.transform.forward.normalized;
-        var playerForward = transform.forward;
-
-        cameraForward.y = 0;
-
-        return Quaternion.FromToRotation(playerForward, cameraForward);
-    }
-
-    private Dictionary<MovementDirectionType, Vector3> GetMovementVectors()
-    {
-        var dictionary = new Dictionary<MovementDirectionType, Vector3>
-        {
-            {MovementDirectionType.Forward, Vector3.forward},
-            {MovementDirectionType.Back, Vector3.back},
-            {MovementDirectionType.Left, Vector3.left},
-            {MovementDirectionType.Right, Vector3.right}
-        };
-
-        return dictionary;
-    }
-
-    private Vector3 GetMouseWorldPosition()
-    {
-        var ray = _camera.ScreenPointToRay(Input.mousePosition);
-        _plane.Raycast(ray, out _distance);
-
-        return ray.GetPoint(_distance);
-    }
 }

@@ -28,5 +28,6 @@ namespace StateMachines.States.CharacterMovement
             _animator.SetFloat(Moving, 1f, 0.1f, Time.deltaTime);
             _controller.Move(_inputSystem.MovementDirection * (Time.deltaTime * _movementSettings.Speed));
         }
+
     }
 }

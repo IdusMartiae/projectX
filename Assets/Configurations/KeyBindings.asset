@@ -12,23 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0b89beaed3141ce9da67bd3c8d3b37, type: 3}
   m_Name: KeyBindings
   m_EditorClassIdentifier: 
-  movement:
-  - name: Up
+  movementVerticalAxis:
+  - name: Positive
     keyAction: 0
     mainKey: 119
     alternativeKey: 273
-  - name: Down
+  - name: Negative
     keyAction: 1
     mainKey: 115
     alternativeKey: 274
-  - name: Left
-    keyAction: 2
-    mainKey: 97
-    alternativeKey: 276
-  - name: Right
-    keyAction: 3
+  movementHorizontalAxis:
+  - name: Positive
+    keyAction: 0
     mainKey: 100
     alternativeKey: 275
+  - name: Negative
+    keyAction: 1
+    mainKey: 97
+    alternativeKey: 276
   combat:
   - name: Primary Attack
     keyAction: 0

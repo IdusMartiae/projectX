@@ -2279,6 +2279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1027128612ce426a9e1d2320b484bd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testBasicAttack: {fileID: 11400000, guid: 7b53bbccdbb9c438eac6eb236a46940c, type: 2}
+  animatorController: {fileID: 9100000, guid: 6566df7322d9d4b0eba28e66b2265a4a, type: 2}
 --- !u!95 &3553470586393248465
 Animator:
   serializedVersion: 3
@@ -2292,7 +2294,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6566df7322d9d4b0eba28e66b2265a4a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

@@ -1,16 +1,20 @@
 using System.Collections.Generic;
 using Enums;
+using UnityEditor.Animations;
 using UnityEngine;
 using Wrappers;
 using Zenject;
 
 public class CharacterAbilitySlotsComponent : MonoBehaviour
 {
+    [SerializeField] private BaseAbility testBasicAttack;
+    [SerializeField] private AnimatorController animatorController;
+    
     public readonly Dictionary<AbilitySlotType, AbilitySlotWrapper> AbilitySlots =
         new Dictionary<AbilitySlotType, AbilitySlotWrapper>();
-
     private InputSystem _inputSystem;
-
+    private Animator _animator;
+        
     [Inject]
     private void Construct(InputSystem inputSystem)
     {
@@ -21,6 +25,7 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
 
     private void Start()
     {
+        _animator = gameObject.GetComponent<Animator>();
         InitializeAbilitySlots();
     }
 
@@ -35,7 +40,14 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
     
     private void HandleSlotPressed(AbilitySlotType abilitySlot)
     {
+        // delete later
         AbilitySlots[abilitySlot].UseAbility();
+        animatorController.layers[1].stateMachine.states[1].state.speed =
+            1 / AbilitySlots[abilitySlot].SlotAbility.Duration;
+        _animator.Play(animatorController.layers[1].stateMachine.states[1].state.nameHash);
+        var hitZone = Instantiate(AbilitySlots[abilitySlot].SlotAbility.HitZone);
+        hitZone.transform.position = transform.position + transform.up * 1 + transform.forward * 2f;
+        hitZone.transform.rotation = Quaternion.Euler(-90f, transform.eulerAngles.y + 180f, 0);
     }
 
     private void HandleSlotReleased(AbilitySlotType abilitySlot)
@@ -45,74 +57,8 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
 
     private void InitializeAbilitySlots()
     {
-        AbilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot, new AbilitySlotWrapper(new MockAbility1(transform, GetComponent<Animator>())));
-        AbilitySlots.Add(AbilitySlotType.SecondaryAbilitySlot, new AbilitySlotWrapper(new MockAbility2()));
+        AbilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot, new AbilitySlotWrapper(testBasicAttack));
+        animatorController.SetStateEffectiveMotion(animatorController.layers[1].stateMachine.states[1].state, testBasicAttack.Animation);
     }
     
-    // Mock abilities for testing
-    private class MockAbility1 : BaseAbility
-    {
-        
-        public sealed override string Name { get; set; }
-        public sealed override string IconPath { get; set; }
-        public sealed override bool MovementBlocking { get; set; }
-        public sealed override bool Aimed { get; set; }
-        public sealed override float Duration { get; set; }
-        public sealed override float Cooldown { get; set; }
-
-        private Transform _actorTransform;
-        private Animator _animator;
-
-        internal MockAbility1(Transform actorTransform, Animator animator)
-        {
-            _actorTransform = actorTransform;
-            Name = "MockAbility1";
-            IconPath = "/1.png";
-            MovementBlocking = false;
-            Aimed = false;
-            Duration = 0.1f;
-            Cooldown = 0.5f;
-            _animator = animator;
-        }
-
-        public override void Start()
-        {
-            var colliders = Physics.OverlapBox(
-                _actorTransform.position + _actorTransform.forward * 2,
-                new Vector3(1, 1, 1));
-            
-            _animator.SetFloat("Attacking", 2f);
-        }
-
-        public override void Finish()
-        {
-            _animator.SetFloat("Attacking", 0);
-        }
-    }
-
-    private class MockAbility2 : BaseAbility
-    {
-        public sealed override string Name { get; set; }
-        public sealed override string IconPath { get; set; }
-        public sealed override bool MovementBlocking { get; set; }
-        public sealed override bool Aimed { get; set; }
-        public override float Duration { get; set; }
-        public override float Cooldown { get; set; }
-
-        internal MockAbility2()
-        {
-            Name = "MockAbility2";
-            IconPath = "/2.png";
-            MovementBlocking = true;
-            Aimed = true;
-        }
-
-        public override void Start()
-        {
-        }
-
-        public override void Finish()
-        {
-        }
-    }
 }

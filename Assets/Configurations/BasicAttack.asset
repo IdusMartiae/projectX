@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Basic Attack
   icon: {fileID: 0}
-  animation: {fileID: -203655887218126122, guid: fe7cb70c9cae64294a886918387a5094, type: 3}
-  hitZone: {fileID: 7508304929489804197, guid: b00f0b2941dd64b27bf295257b05d8fd, type: 3}
+  animation: {fileID: -203655887218126122, guid: deb8b205703df4fa6a90db179c177ae0, type: 3}
+  hitZone: {fileID: 0}
   aimed: 1
   movementBlocking: 1
   duration: 0.5

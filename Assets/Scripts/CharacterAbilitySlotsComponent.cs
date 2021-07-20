@@ -5,16 +5,25 @@ using UnityEngine;
 using Wrappers;
 using Zenject;
 
+// TODO Add skill panel to represent chosen skills
 public class CharacterAbilitySlotsComponent : MonoBehaviour
 {
-    [SerializeField] private BaseAbility testBasicAttack;
+    [SerializeField] private BaseAbility primaryAbility;
+    [SerializeField] private BaseAbility secondaryAbility;
+    [SerializeField] private BaseAbility abilitySlot1;
+    [SerializeField] private BaseAbility abilitySlot2;
+    [SerializeField] private BaseAbility abilitySlot3;
+    [SerializeField] private BaseAbility abilitySlot4;
+    
     [SerializeField] private AnimatorController animatorController;
     
     public readonly Dictionary<AbilitySlotType, AbilitySlotWrapper> AbilitySlots =
         new Dictionary<AbilitySlotType, AbilitySlotWrapper>();
     private InputSystem _inputSystem;
     private Animator _animator;
-        
+
+    [SerializeField] private LayerMask layerMask;
+    
     [Inject]
     private void Construct(InputSystem inputSystem)
     {
@@ -42,12 +51,20 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
     {
         // delete later
         AbilitySlots[abilitySlot].UseAbility();
-        animatorController.layers[1].stateMachine.states[1].state.speed =
+        animatorController.layers[0].stateMachine.states[1].state.speed =
             1 / AbilitySlots[abilitySlot].SlotAbility.Duration;
-        _animator.Play(animatorController.layers[1].stateMachine.states[1].state.nameHash);
-        var hitZone = Instantiate(AbilitySlots[abilitySlot].SlotAbility.HitZone);
-        hitZone.transform.position = transform.position + transform.up * 1 + transform.forward * 2f;
-        hitZone.transform.rotation = Quaternion.Euler(-90f, transform.eulerAngles.y + 180f, 0);
+        _animator.Play(animatorController.layers[0].stateMachine.states[1].state.nameHash);
+        
+        var collisions = Physics.OverlapBox(
+            transform.position + transform.forward * 2, 
+            Vector3.one * 2, 
+            transform.rotation,
+            layerMask);
+        
+        foreach (var collider in collisions)
+        {
+            Debug.Log(collider.name);
+        }
     }
 
     private void HandleSlotReleased(AbilitySlotType abilitySlot)
@@ -57,8 +74,7 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
 
     private void InitializeAbilitySlots()
     {
-        AbilitySlots.Add(AbilitySlotType.PrimaryAbilitySlot, new AbilitySlotWrapper(testBasicAttack));
-        animatorController.SetStateEffectiveMotion(animatorController.layers[1].stateMachine.states[1].state, testBasicAttack.Animation);
+        // TODO Initialize here serialized abilities until skill tree is implemented
     }
     
 }

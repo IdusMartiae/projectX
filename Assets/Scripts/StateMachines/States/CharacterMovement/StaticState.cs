@@ -4,9 +4,9 @@ namespace StateMachines.States.CharacterMovement
 {
     public class StaticState : BaseState
     {
-        private Animator _animator;
-        private static readonly int Moving = Animator.StringToHash("Moving");
-        
+        private readonly Animator _animator;
+        private static readonly int MovementSpeed = Animator.StringToHash("MovementSpeed");
+
         public StaticState(Animator animator)
         {
             _animator = animator;
@@ -14,7 +14,7 @@ namespace StateMachines.States.CharacterMovement
         
         public override void Update()
         {
-            _animator.SetFloat(Moving, 0, 0.1f, Time.deltaTime);
+            _animator.SetFloat(MovementSpeed, 0, 0.1f, Time.deltaTime);
         }
     }
 }

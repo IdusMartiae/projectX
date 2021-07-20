@@ -9,7 +9,7 @@ namespace StateMachines.States.CharacterMovement
         private readonly CharacterMovementSettings _movementSettings;
         private readonly InputSystem _inputSystem;
         private readonly Animator _animator;
-        private static readonly int Moving = Animator.StringToHash("Moving");
+        private static readonly int MovementSpeed = Animator.StringToHash("MovementSpeed");
 
         public MovingState(
             CharacterController controller,
@@ -25,7 +25,7 @@ namespace StateMachines.States.CharacterMovement
 
         public override void Update()
         {
-            _animator.SetFloat(Moving, 1f, 0.1f, Time.deltaTime);
+            _animator.SetFloat(MovementSpeed, _movementSettings.Speed, 0.1f, Time.deltaTime);
             _controller.Move(_inputSystem.MovementDirection * (Time.deltaTime * _movementSettings.Speed));
         }
 

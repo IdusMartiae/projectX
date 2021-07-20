@@ -11,7 +11,7 @@ public abstract class BaseAbility : ScriptableObject
     public abstract float Cooldown { get; set; }
     public abstract AnimationClip Animation { get; set; }
     public abstract GameObject HitZone { get; set; }
-    
+
     public abstract void Start();
     public abstract void Finish();
 }

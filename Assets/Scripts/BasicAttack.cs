@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class BasicAttack: BaseAbility
     [SerializeField] private string abilityName;
     [SerializeField] private Image icon;
     [SerializeField] private AnimationClip animation;
-    [SerializeField] private GameObject hitZone;
+    [SerializeField] private Collider hitBoxPrefab;
     [SerializeField] private bool aimed;
     [SerializeField] private bool movementBlocking;
     [SerializeField] private float duration;
@@ -49,18 +50,21 @@ public class BasicAttack: BaseAbility
         get => animation; 
         set => animation = value;
     }
-
-    public override GameObject HitZone
+    
+    public override Collider HitBoxPrefab
     {
-        get => hitZone;
-        set => hitZone = value;
+        get => hitBoxPrefab;
+        set => hitBoxPrefab = value;
     }
 
-    public override void Start()
+    public override float CooldownTimer { get; set; }
+
+    public override IEnumerator PerformAbility(Collider hitBoxInstance)
     {
+        hitBoxInstance.enabled = true;
+        yield return null;
+
+        hitBoxInstance.enabled = false;
     }
 
-    public override void Finish()
-    {
-    }
 }

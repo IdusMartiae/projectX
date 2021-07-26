@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Basic Attack
   icon: {fileID: 0}
   animation: {fileID: -203655887218126122, guid: deb8b205703df4fa6a90db179c177ae0, type: 3}
-  hitZone: {fileID: 0}
+  hitBoxPrefab: {fileID: 4351331015708755023, guid: 7fe1ca3384748304d8f5fdc511a01199, type: 3}
   aimed: 1
   movementBlocking: 1
   duration: 0.5

@@ -1177,11 +1177,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1027128612ce426a9e1d2320b484bd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testBasicAttack: {fileID: 11400000, guid: 7b53bbccdbb9c438eac6eb236a46940c, type: 2}
+  primaryAbility: {fileID: 11400000, guid: 7b53bbccdbb9c438eac6eb236a46940c, type: 2}
+  secondaryAbility: {fileID: 0}
+  abilitySlot1: {fileID: 0}
+  abilitySlot2: {fileID: 0}
+  abilitySlot3: {fileID: 0}
+  abilitySlot4: {fileID: 0}
   animatorController: {fileID: 9100000, guid: 6566df7322d9d4b0eba28e66b2265a4a, type: 2}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!95 &2620761966171110817
 Animator:
   serializedVersion: 3

@@ -16,14 +16,12 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
     [SerializeField] private BaseAbility abilitySlot4;
     
     [SerializeField] private AnimatorController animatorController;
-    
-    public readonly Dictionary<AbilitySlotType, AbilitySlotWrapper> AbilitySlots =
-        new Dictionary<AbilitySlotType, AbilitySlotWrapper>();
-    private InputSystem _inputSystem;
     private Animator _animator;
-
-    [SerializeField] private LayerMask layerMask;
     
+    public Dictionary<AbilitySlotType, AbilitySlotWrapper> AbilitySlots;
+    private InputSystem _inputSystem;
+    private static readonly int PrimaryAbility = Animator.StringToHash("PrimaryAbility");
+
     [Inject]
     private void Construct(InputSystem inputSystem)
     {
@@ -34,23 +32,26 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
 
     private void Start()
     {
-        _animator = gameObject.GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         InitializeAbilitySlots();
     }
 
     public void Update()
     {
-        foreach (var abilitySlot in AbilitySlots)
+        // This can be replaced with coroutines
+        /*foreach (var abilitySlot in AbilitySlots)
         {
             abilitySlot.Value.UpdateCooldownTimer();
-        }
+        }*/
         
     }
     
     private void HandleSlotPressed(AbilitySlotType abilitySlot)
-    {
+    {   
+        AbilitySlots[abilitySlot].UseAbility(_animator);
+        _animator.SetTrigger(PrimaryAbility);
         // delete later
-        AbilitySlots[abilitySlot].UseAbility();
+        /*AbilitySlots[abilitySlot].UseAbility();
         animatorController.layers[0].stateMachine.states[1].state.speed =
             1 / AbilitySlots[abilitySlot].SlotAbility.Duration;
         _animator.Play(animatorController.layers[0].stateMachine.states[1].state.nameHash);
@@ -64,17 +65,28 @@ public class CharacterAbilitySlotsComponent : MonoBehaviour
         foreach (var collider in collisions)
         {
             Debug.Log(collider.name);
-        }
+        }*/
     }
 
     private void HandleSlotReleased(AbilitySlotType abilitySlot)
     {
-        AbilitySlots[abilitySlot].AbilityRelease();
+        /*AbilitySlots[abilitySlot].AbilityRelease();*/
     }
 
     private void InitializeAbilitySlots()
     {
-        // TODO Initialize here serialized abilities until skill tree is implemented
+        AbilitySlots = new Dictionary<AbilitySlotType, AbilitySlotWrapper>
+        {
+            {AbilitySlotType.PrimaryAbilitySlot, new AbilitySlotWrapper(primaryAbility, this)},
+            {AbilitySlotType.SecondaryAbilitySlot, new AbilitySlotWrapper(this)},
+            {AbilitySlotType.AbilitySlot1, new AbilitySlotWrapper(this)},
+            {AbilitySlotType.AbilitySlot2, new AbilitySlotWrapper(this)},
+            {AbilitySlotType.AbilitySlot3, new AbilitySlotWrapper(this)},
+            {AbilitySlotType.AbilitySlot4, new AbilitySlotWrapper(this)}
+        };
     }
-    
+    private void ChangeSlotAbility(AbilitySlotType slot, BaseAbility newAbility)
+    {
+        AbilitySlots[slot].ChangeAbility(newAbility);
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ProjectX.Scripts.Tools.SettingsSource
 {
     
-    [CreateAssetMenu(fileName = "KeyBindings", menuName = "Scriptable Objects/Key Bindings")]
+    [CreateAssetMenu(fileName = "settings_key_bindings", menuName = "Scriptable Objects/Key Bindings")]
     public class KeyBindings : ScriptableObject
     {
         [SerializeField] private List<KeyBindingWrapper<AxisButtonType>>movementVerticalAxis;

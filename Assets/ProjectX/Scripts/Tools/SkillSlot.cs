@@ -7,18 +7,16 @@ namespace ProjectX.Scripts.Tools
     public class SkillSlot
     {
         private BaseSkill _skill;
-        
         public Transform PlayerTransform { get; }
         public PlayerAbilities PlayerAbilities { get; }
         public Animator Animator { get; }
         public AnimatorOverrideController AnimatorOverrideController { get; }
-        public int TriggerHash { get; }
+        public int TriggerId { get; }
         public string ClipName { get; }
         
-        public SkillSlot(GameObject player, BaseSkill skill, string clipName, string triggerName)
+        public SkillSlot(GameObject player, BaseSkill skill, string triggerName)
         {
-            TriggerHash = triggerName
-            ClipName = clipName;
+            ClipName = triggerName;
             
             PlayerTransform = player.transform;
             PlayerAbilities = player.GetComponent<PlayerAbilities>();
@@ -26,6 +24,8 @@ namespace ProjectX.Scripts.Tools
             Animator = player.GetComponent<Animator>();
             AnimatorOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
             Animator.runtimeAnimatorController = AnimatorOverrideController;
+            
+            TriggerId = Animator.StringToHash(triggerName);
             
             _skill = skill;
             _skill.Initialize(this);

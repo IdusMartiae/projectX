@@ -34,20 +34,20 @@ namespace ProjectX.Scripts.Framework
 
         private void HandleSlotUp(SlotType slot)
         {
-
+            _playerAbilities[slot].UseSkill();
         }
 
         private void HandleSlotDown(SlotType slot)
         {
-
+            _playerAbilities[slot].CancelSkill();
         }
 
         private void InitializeSlots()
         {
-            _playerAbilities.Add(SlotType.Primary, new SkillSlot(gameObject, primary));
-            _playerAbilities.Add(SlotType.Secondary, new SkillSlot(gameObject, secondary));
-            _playerAbilities.Add(SlotType.Slot1, new SkillSlot(gameObject, slot1));
-            _playerAbilities.Add(SlotType.Slot2, new SkillSlot(gameObject, slot2));
+            _playerAbilities.Add(SlotType.Primary, new SkillSlot(gameObject, primary, "Primary"));
+            _playerAbilities.Add(SlotType.Secondary, new SkillSlot(gameObject, secondary, "Secondary"));
+            _playerAbilities.Add(SlotType.Slot1, new SkillSlot(gameObject, slot1, "Slot1"));
+            _playerAbilities.Add(SlotType.Slot2, new SkillSlot(gameObject, slot2, "Slot2"));
         }
     }
 }

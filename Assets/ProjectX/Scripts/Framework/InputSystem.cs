@@ -35,8 +35,8 @@ namespace ProjectX.Scripts.Framework
                 _verticalAxis);
         public Vector3 MousePosition => _mouseToWorldConverter.GetWorldCoordinates(Input.mousePosition);
     
-        public event Action<AbilitySlot> AbilitySlotPressed;
-        public event Action<AbilitySlot> AbilitySlotReleased;
+        public event Action<SlotType> SlotDown;
+        public event Action<SlotType> SlotUp;
 
         [Inject]
         private void Construct(KeyBindings keyBindings)
@@ -58,11 +58,11 @@ namespace ProjectX.Scripts.Framework
         {
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyUp, ref _horizontalAxis);
             CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyUp, ref _verticalAxis);
-            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, AbilitySlotReleased);
+            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, SlotUp);
 
             // Return from method if there isn't any keys pressed
             if (!Input.anyKeyDown) return;
-            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilitySlotPressed);
+            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, SlotDown);
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyDown, ref _horizontalAxis);
             CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyDown, ref _verticalAxis);
         }

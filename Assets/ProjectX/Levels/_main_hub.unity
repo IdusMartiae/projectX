@@ -183,7 +183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18041933}
   m_LocalRotation: {x: 0.23911765, y: 0.36964378, z: -0.09904577, w: 0.8923991}
-  m_LocalPosition: {x: -36.742344, y: 30.000002, z: -36.742348}
+  m_LocalPosition: {x: -42.772343, y: 30.000002, z: -44.752346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1230803032}
@@ -782,9 +782,9 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 1
+  m_XDamping: 1.1
   m_YDamping: 1
-  m_ZDamping: 1
+  m_ZDamping: 1.1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
@@ -852,6 +852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5660103553957104822, guid: 77713b303d0ff466f88e023478a878a2, type: 3}
+  sceneVirtualCamera: {fileID: 18041934}
 --- !u!114 &1577335604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -976,7 +977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976780617}
   m_LocalRotation: {x: 0.23911765, y: 0.36964378, z: -0.09904577, w: 0.8923991}
-  m_LocalPosition: {x: -36.742344, y: 30.000002, z: -36.742348}
+  m_LocalPosition: {x: -42.772343, y: 30.000002, z: -44.752346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

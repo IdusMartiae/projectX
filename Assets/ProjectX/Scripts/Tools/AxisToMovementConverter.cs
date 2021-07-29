@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Tools
 {
-    public class AxisToMovementConverter
+    public static class AxisToMovementConverter
     {
-        private Vector3 _movementDirection;
+        private static Vector3 _movementDirection;
     
-        public Vector3 GetMovementDirection(float horizontalAxis, float verticalAxis)
+        public static Vector3 GetMovementDirection(float horizontalAxis, float verticalAxis)
         {
             _movementDirection.Set( horizontalAxis, 0,verticalAxis);
             _movementDirection = _movementDirection.normalized;

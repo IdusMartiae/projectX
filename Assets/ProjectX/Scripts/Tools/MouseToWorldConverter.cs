@@ -2,21 +2,21 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Tools
 {
-    public class MouseToWorldConverter
+    public static class MouseToWorldConverter
     {
-        private readonly Camera _camera;
-        private Plane _plane;
-        private float _distance;
+        private static readonly Camera Camera;
+        private static Plane _plane;
+        private static float _distance;
 
-        public MouseToWorldConverter(Camera camera, Transform player)
+        static MouseToWorldConverter()
         {
-            _camera = camera;
-            _plane = new Plane(Vector3.up, player.position);
+            Camera = Camera.main;
+            _plane = new Plane(Vector3.up, Vector3.zero);
         }
 
-        public Vector3 GetWorldCoordinates(Vector3 screenPoint)
+        public static Vector3 GetWorldCoordinates(Vector3 screenPoint)
         {
-            var ray = _camera.ScreenPointToRay(screenPoint);
+            var ray = Camera.ScreenPointToRay(screenPoint);
             _plane.Raycast(ray, out _distance);
 
             return ray.GetPoint(_distance);

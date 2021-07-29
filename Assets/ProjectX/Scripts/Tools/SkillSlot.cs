@@ -1,6 +1,7 @@
 using ProjectX.Scripts.Framework;
 using ProjectX.Scripts.Player;
 using UnityEngine;
+using Zenject;
 
 namespace ProjectX.Scripts.Tools
 {
@@ -13,7 +14,9 @@ namespace ProjectX.Scripts.Tools
         public AnimatorOverrideController AnimatorOverrideController { get; }
         public int TriggerId { get; }
         public string ClipName { get; }
-        
+
+        [Inject] public InputSystem InputSystem { get; }
+
         public SkillSlot(GameObject player, BaseSkill skill, string triggerName)
         {
             ClipName = triggerName;

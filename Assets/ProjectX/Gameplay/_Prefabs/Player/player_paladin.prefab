@@ -1555,6 +1555,7 @@ GameObject:
   - component: {fileID: 3610839599368267788}
   - component: {fileID: 1918570903315557579}
   - component: {fileID: 1314834625789639059}
+  - component: {fileID: 3454948111238079089}
   m_Layer: 0
   m_Name: player_paladin
   m_TagString: Untagged
@@ -1643,6 +1644,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotionSettings: {fileID: 11400000, guid: cdc181174be53414d89aea7416f95682, type: 2}
+--- !u!114 &3454948111238079089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660103553957104822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ae64c16f0242c8823df2d26875f8a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primary: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+  secondary: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+  slot1: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+  slot2: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
 --- !u!1 &5689218156334022328
 GameObject:
   m_ObjectHideFlags: 0

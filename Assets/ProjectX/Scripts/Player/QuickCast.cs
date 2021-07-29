@@ -1,24 +1,21 @@
-using System.Collections;
-using ProjectX.Scripts.Framework;
-using ProjectX.Scripts.Tools;
-using UnityEditor;
+using ProjectX.Scripts.Player.Abilities.Targeting;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Player
 {
-    [CreateAssetMenu(fileName = "quick_cast_default", menuName = "Skills/Quick Cast")]
+    [CreateAssetMenu(fileName = "quick_cast_default", menuName = "Abilities/Quick Cast")]
     public class QuickCast : BaseSkill
     {
-        [SerializeField] private Collider hitBoxPrefab;
-        [SerializeField] private bool directional;
-        [HideInInspector] public InputSystem inputSystem;
+        [SerializeField] private Targeting targeting;
         
-        private Collider _hitBoxInstance;
         private bool _onCooldown;
-
-        public bool Directional => directional; 
         
         public override void Use()
+        {
+            targeting.AcquireTargets(_skillSlot.Animator.gameObject, objects => { });
+        }
+        
+        /*public override void Use()
         {
             if (_onCooldown) return;
             _skillSlot.PlayerAbilities.StartCoroutine(UseQuickCast());
@@ -57,7 +54,7 @@ namespace ProjectX.Scripts.Player
                 var activeTime = 0f;
                 while (activeTime < duration)
                 {
-                    var newForward = (inputSystem.MousePosition - _skillSlot.PlayerTransform.position).normalized;
+                    var newForward = (_skillSlot.InputSystem.MousePosition - _skillSlot.PlayerTransform.position).normalized;
                     _skillSlot.PlayerTransform.forward = Vector3.RotateTowards(_skillSlot.PlayerTransform.forward,
                         newForward, 0.1f, Time.deltaTime);
                     activeTime += Time.deltaTime;
@@ -75,23 +72,27 @@ namespace ProjectX.Scripts.Player
             _onCooldown = false;
         }
         
-    }
+    }*/
 
-    // neat, but I have no need for serializable field as i already inject IS using zenject
-    [CustomEditor(typeof(QuickCast))]
-    public class QuickCastEditor : Editor
-    {
-        public override void OnInspectorGUI()
+        /*// neat, but I have no need for serializable field as i already inject IS using zenject
+        [CustomEditor(typeof(QuickCast))]
+        public class QuickCastEditor : Editor
         {
-            base.OnInspectorGUI();
-
-            var quickCast = target as QuickCast;
-            
-            if (quickCast.Directional)
+            public override void OnInspectorGUI()
             {
-                quickCast.inputSystem = EditorGUILayout.ObjectField("Input System", quickCast.inputSystem, typeof(InputSystem), true) as InputSystem;
+                base.OnInspectorGUI();
+    
+                var quickCast = target as QuickCast;
+                
+                if (quickCast.Directional)
+                {
+                    quickCast.inputSystem = EditorGUILayout.ObjectField("Input System", quickCast.inputSystem, typeof(InputSystem), true) as InputSystem;
+                }
             }
+        }*/
+        public override void Deinitialize()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
-

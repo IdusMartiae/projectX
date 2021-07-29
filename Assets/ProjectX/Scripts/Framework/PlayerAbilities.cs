@@ -15,19 +15,18 @@ namespace ProjectX.Scripts.Framework
         [SerializeField] private BaseSkill slot1;
         [SerializeField] private BaseSkill slot2;
         
-        private InputSystem _inputSystem;
         private Dictionary<SlotType, SkillSlot> _playerAbilities = new Dictionary<SlotType, SkillSlot>();
         
         [Inject]
         private void Construct(InputSystem inputSystem)
         {
-            _inputSystem = inputSystem;
+            inputSystem.SlotUp += HandleSlotUp;
+            inputSystem.SlotDown += HandleSlotDown;
         }
 
         private void Start()
         {
-            _inputSystem.SlotUp += HandleSlotUp;
-            _inputSystem.SlotDown += HandleSlotDown;
+            
             
             InitializeSlots();
         }

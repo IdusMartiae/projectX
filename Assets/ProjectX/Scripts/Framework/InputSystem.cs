@@ -12,12 +12,9 @@ namespace ProjectX.Scripts.Framework
     public class InputSystem : MonoBehaviour
     {
         private KeyBindings _keyBindings;
-        private GlobalRotation _globalRotation;
-        private MouseToWorldConverter _mouseToWorldConverter;
-        private AxisToMovementConverter _axisToMovementConverter;
-    
         private float _verticalAxis;
         private float _horizontalAxis;
+        
         private readonly Dictionary<AxisButtonType, float> _axisFloats = new Dictionary<AxisButtonType, float>
         {
             {
@@ -29,11 +26,11 @@ namespace ProjectX.Scripts.Framework
         };
 
         public Vector3 MovementDirection =>
-            _globalRotation.WorldRotation *
-            _axisToMovementConverter.GetMovementDirection(
+            GlobalRotation.WorldRotation *
+            AxisToMovementConverter.GetMovementDirection(
                 _horizontalAxis,
                 _verticalAxis);
-        public Vector3 MousePosition => _mouseToWorldConverter.GetWorldCoordinates(Input.mousePosition);
+        public Vector3 MousePosition => MouseToWorldConverter.GetWorldCoordinates(Input.mousePosition);
     
         public event Action<SlotType> SlotDown;
         public event Action<SlotType> SlotUp;
@@ -46,12 +43,7 @@ namespace ProjectX.Scripts.Framework
 
         private void Start()
         {
-            var mainCamera = Camera.main;
-            var player = transform;
-        
-            _mouseToWorldConverter = new MouseToWorldConverter(mainCamera, player);
-            _globalRotation = new GlobalRotation(mainCamera!.transform, player);
-            _axisToMovementConverter = new AxisToMovementConverter();
+            GlobalRotation.CalculateGlobalRotation(transform.forward);
         }
 
         public void Update()

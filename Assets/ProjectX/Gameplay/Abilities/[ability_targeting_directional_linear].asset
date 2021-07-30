@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 755a459e71d54d1da233f2a214de6afc, type: 3}
-  m_Name: quick_cast_default
+  m_Name: '[ability_targeting_directional_linear]'
   m_EditorClassIdentifier: 
   title: 
   icon: {fileID: 0}
@@ -18,3 +18,4 @@ MonoBehaviour:
   duration: 0
   cooldown: 0
   targeting: {fileID: 11400000, guid: a32063ef7d6df4c0eb9c4151f081eb57, type: 2}
+  message: linear

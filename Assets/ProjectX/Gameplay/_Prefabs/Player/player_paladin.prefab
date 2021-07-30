@@ -1656,10 +1656,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ae64c16f0242c8823df2d26875f8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primary: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+  primary: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
   secondary: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
-  slot1: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
-  slot2: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+  slot1: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
+  slot2: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
 --- !u!1 &5689218156334022328
 GameObject:
   m_ObjectHideFlags: 0

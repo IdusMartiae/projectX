@@ -20,7 +20,7 @@ namespace ProjectX.Scripts.Player.Abilities.Targeting
         
         public override void AcquireTargets(GameObject caster, Action<IEnumerable<GameObject>> callback)
         {
-            _playerAbilities.StartCoroutine(AcquireTarget(caster, callback));
+            _playerAbilities.StartCoroutine(AcquireTargetsLinear(caster, callback));
         }
 
         public override void InitializeTargeting(GameObject caster)
@@ -33,7 +33,7 @@ namespace ProjectX.Scripts.Player.Abilities.Targeting
             _playerAbilities.StartCoroutine(DrawHitBox(caster));
         }
         
-        private IEnumerator AcquireTarget(GameObject caster, Action<IEnumerable<GameObject>> callback)
+        private IEnumerator AcquireTargetsLinear(GameObject caster, Action<IEnumerable<GameObject>> callback)
         {
             var targets = Physics.BoxCastAll(
                 caster.transform.position, 

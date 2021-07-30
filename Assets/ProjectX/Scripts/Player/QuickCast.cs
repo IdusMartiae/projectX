@@ -10,6 +10,7 @@ namespace ProjectX.Scripts.Player
     public class QuickCast : BaseSkill
     {
         [SerializeField] private Targeting targeting;
+        [SerializeField] private string message;
         
         private bool _onCooldown;
         
@@ -23,13 +24,13 @@ namespace ProjectX.Scripts.Player
         {
             if (targetObjects.IsEmpty())
             {
-                Debug.Log("None");
+                Debug.Log($"{message}: None");
             }
             else
             {
                 foreach (var gameObject in targetObjects)
                 {
-                    Debug.Log(gameObject);
+                    Debug.Log($"{message}: {gameObject}");
                 }
             }
         }

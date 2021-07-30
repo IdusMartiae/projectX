@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using ModestTree;
 using ProjectX.Scripts.Player.Abilities.Targeting;
+using ProjectX.Scripts.Tools;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Player
@@ -12,9 +15,30 @@ namespace ProjectX.Scripts.Player
         
         public override void Use()
         {
-            targeting.AcquireTargets(_skillSlot.Animator.gameObject, objects => { });
+            targeting.AcquireTargets(_skillSlot.Animator.gameObject, PrintTargets);
         }
-        
+
+
+        private void PrintTargets(IEnumerable<GameObject> targetObjects)
+        {
+            if (targetObjects.IsEmpty())
+            {
+                Debug.Log("None");
+            }
+            else
+            {
+                foreach (var gameObject in targetObjects)
+                {
+                    Debug.Log(gameObject);
+                }
+            }
+        }
+
+        public override void Initialize(SkillSlot skillSlot)
+        {
+            base.Initialize(skillSlot);
+            targeting.InitializeTargeting(skillSlot.PlayerTransform.gameObject);
+        }
         /*public override void Use()
         {
             if (_onCooldown) return;

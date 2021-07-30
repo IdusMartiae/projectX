@@ -30,8 +30,7 @@ namespace ProjectX.Scripts.Framework
             AxisToMovementConverter.GetMovementDirection(
                 _horizontalAxis,
                 _verticalAxis);
-        public Vector3 MousePosition => MouseToWorldConverter.GetWorldCoordinates(Input.mousePosition);
-    
+        
         public event Action<SlotType> SlotDown;
         public event Action<SlotType> SlotUp;
 

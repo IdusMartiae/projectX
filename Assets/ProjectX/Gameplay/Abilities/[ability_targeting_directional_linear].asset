@@ -18,4 +18,6 @@ MonoBehaviour:
   duration: 0
   cooldown: 0
   targeting: {fileID: 11400000, guid: a32063ef7d6df4c0eb9c4151f081eb57, type: 2}
+  filterStrategies:
+  - {fileID: 11400000, guid: d008392611ca3466d8c8eb79312df24b, type: 2}
   message: linear

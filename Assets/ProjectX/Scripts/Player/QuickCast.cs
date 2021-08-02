@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ModestTree;
+using ProjectX.Scripts.Player.Abilities.Filtering;
 using ProjectX.Scripts.Player.Abilities.Targeting;
 using ProjectX.Scripts.Tools;
 using UnityEngine;
@@ -9,7 +10,8 @@ namespace ProjectX.Scripts.Player
     [CreateAssetMenu(fileName = "quick_cast_default", menuName = "Abilities/Quick Cast")]
     public class QuickCast : BaseSkill
     {
-        [SerializeField] private Targeting targeting;
+        [SerializeField] private TargetingStrategy targeting;
+        [SerializeField] private FilterStrategy[] filterStrategies;
         [SerializeField] private string message;
         
         private bool _onCooldown;
@@ -28,6 +30,10 @@ namespace ProjectX.Scripts.Player
             }
             else
             {
+                foreach (var filter in filterStrategies)
+                {
+                    targetObjects = filter.Filter(targetObjects); 
+                }
                 foreach (var gameObject in targetObjects)
                 {
                     Debug.Log($"{message}: {gameObject}");

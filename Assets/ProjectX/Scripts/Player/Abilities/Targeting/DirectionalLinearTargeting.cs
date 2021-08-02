@@ -9,9 +9,8 @@ using UnityEngine;
 namespace ProjectX.Scripts.Player.Abilities.Targeting
 {
     [CreateAssetMenu(fileName = "targeting_directional_linear", menuName = "Abilities/Targeting/Directional Linear")]
-    public class DirectionalLinearTargeting : Targeting
+    public class DirectionalLinearTargeting : TargetingStrategy
     {
-        [SerializeField] private LayerMask layerMask;
         [SerializeField] private float width;
         [SerializeField] private float range;
         
@@ -40,8 +39,7 @@ namespace ProjectX.Scripts.Player.Abilities.Targeting
                 _boxHalfExtends, 
                 MouseWorldPosition.GetCoordinates() - caster.transform.position, 
                 Quaternion.identity, 
-                range, 
-                layerMask);
+                range);
             
             callback(GetTargetObjects(targets));
             

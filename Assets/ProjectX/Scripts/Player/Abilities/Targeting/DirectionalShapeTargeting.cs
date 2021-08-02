@@ -8,9 +8,8 @@ using UnityEngine;
 namespace ProjectX.Scripts.Player.Abilities.Targeting
 {
     [CreateAssetMenu(fileName = "targeting_directional_shape", menuName = "Abilities/Targeting/Directional Custom Shape")]
-    public class DirectionalShapeTargeting : Targeting
+    public class DirectionalShapeTargeting : TargetingStrategy
     {
-        [SerializeField] private LayerMask layerMask;
         [SerializeField] private HitBox hitBox;
         
         private HitBox _hitBox;
@@ -23,11 +22,9 @@ namespace ProjectX.Scripts.Player.Abilities.Targeting
 
         public override void InitializeTargeting(GameObject caster)
         {
-            Debug.Log("This");
             _hitBox = Instantiate(hitBox, caster.transform);
             _hitBox.gameObject.SetActive(false);
-            
-            _hitBox.LayerMask = layerMask;
+
             _playerAbilities = caster.GetComponent<PlayerAbilities>();
         }
 

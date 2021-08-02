@@ -13,7 +13,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
         {
             foreach (var target in targets)
             {
-                var health = (HealthComponent) target.GetComponent(typeof(HealthComponent));
+                var health = (CharacterHealth) target.GetComponent(typeof(CharacterHealth));
                 if (health != null)
                 {
                     health.TakeDamage(damage);

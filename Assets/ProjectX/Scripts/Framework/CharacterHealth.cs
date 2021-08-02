@@ -2,12 +2,16 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework
 {
-    public class HealthComponent : MonoBehaviour
+    public class CharacterHealth : MonoBehaviour
     {
         [SerializeField] private float maxHealth;
         
         private float _currentHealth;
 
+        // TODO REMOVE AFTER DEBUGGING
+        public float CurrentHealth => _currentHealth;
+        public float MaxHealth => maxHealth;
+        
         public void Start()
         {
             _currentHealth = maxHealth;

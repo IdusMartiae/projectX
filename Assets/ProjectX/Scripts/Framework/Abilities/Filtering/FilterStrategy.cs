@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectX.Scripts.Player.Abilities.Filtering
+namespace ProjectX.Scripts.Framework.Abilities.Filtering
 {
     public abstract class FilterStrategy : ScriptableObject
     {

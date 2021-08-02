@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectX.Scripts.Player.Abilities.Targeting
+namespace ProjectX.Scripts.Framework.Abilities.Targeting
 {
     public abstract class TargetingStrategy : ScriptableObject
     {

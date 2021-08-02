@@ -1,15 +1,13 @@
-using ProjectX.Scripts.Framework;
-using ProjectX.Scripts.Player;
+using ProjectX.Scripts.Framework.Abilities;
 using UnityEngine;
 using Zenject;
 
-namespace ProjectX.Scripts.Tools
+namespace ProjectX.Scripts.Framework
 {
-    public class SkillSlot
+    public class AbilitySlot
     {
-        private BaseSkill _skill;
+        private IAbility _ability;
         public Transform PlayerTransform { get; }
-        public PlayerAbilities PlayerAbilities { get; }
         public Animator Animator { get; }
         public AnimatorOverrideController AnimatorOverrideController { get; }
         public int TriggerId { get; }
@@ -17,12 +15,11 @@ namespace ProjectX.Scripts.Tools
 
         [Inject] public InputSystem InputSystem { get; }
 
-        public SkillSlot(GameObject player, BaseSkill skill, string triggerName)
+        public AbilitySlot(GameObject player, IAbility ability, string triggerName)
         {
             ClipName = triggerName;
             
             PlayerTransform = player.transform;
-            PlayerAbilities = player.GetComponent<PlayerAbilities>();
             
             Animator = player.GetComponent<Animator>();
             AnimatorOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
@@ -30,25 +27,25 @@ namespace ProjectX.Scripts.Tools
             
             TriggerId = Animator.StringToHash(triggerName);
             
-            _skill = skill;
-            _skill.Initialize(this);
+            _ability = ability;
+            _ability.Initialize(this);
         }
         
-        public void UseSkill()
+        public void UseAbility()
         {
-            _skill.Use();
+            _ability.Use();
         }
 
-        public void CancelSkill()
+        public void CancelAbility()
         {
-            _skill.Cancel();
+            _ability.Cancel();
         }
 
-        public void ChangeSkill(BaseSkill newSkill)
+        public void ChangeAbility(IAbility newAbility)
         {
-            _skill.Deinitialize();
-            _skill = newSkill;
-            _skill.Initialize(this);
+            _ability.Deinitialize();
+            _ability = newAbility;
+            _ability.Initialize(this);
         }
     }
 }

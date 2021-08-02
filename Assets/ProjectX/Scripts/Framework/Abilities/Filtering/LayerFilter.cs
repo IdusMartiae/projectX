@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ProjectX.Scripts.Player.Abilities.Filtering
+namespace ProjectX.Scripts.Framework.Abilities.Filtering
 {
     [CreateAssetMenu(fileName = "filter_layer", menuName = "Abilities/Filter/Layers")]
     public class LayerFilter : FilterStrategy

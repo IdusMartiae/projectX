@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc183894c7d499fb95550c0535f7082, type: 3}
   m_Name: settings_player_locomotion
   m_EditorClassIdentifier: 
-  movementSpeed: 8
-  angularVelocity: 10
+  movementSpeed: 10
+  angularVelocity: 20

@@ -20,5 +20,6 @@ MonoBehaviour:
   targeting: {fileID: 11400000, guid: 6d7ece4ae06d246818c987c8512b2948, type: 2}
   filters:
   - {fileID: 11400000, guid: 90521f5ba7bed46c1b62f5beb4ebb512, type: 2}
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: 279cf4e37d5d24b2bb69085a59ce80a5, type: 2}
   message: shape

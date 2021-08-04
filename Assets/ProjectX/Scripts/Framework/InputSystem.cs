@@ -50,8 +50,7 @@ namespace ProjectX.Scripts.Framework
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyUp, ref _horizontalAxis);
             CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyUp, ref _verticalAxis);
             CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, SlotUp);
-
-            // Return from method if there isn't any keys pressed
+            
             if (!Input.anyKeyDown) return;
             CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, SlotDown);
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyDown, ref _horizontalAxis);

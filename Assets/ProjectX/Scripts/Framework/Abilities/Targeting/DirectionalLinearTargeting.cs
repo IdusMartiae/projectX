@@ -27,8 +27,10 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
             _characterAbilities = caster.GetComponent<CharacterAbilities>();
             _boxHalfExtends = new Vector3(width, casterController.height, 0.1f) / 2;
             
-            //Delete after testing
+            // TODO remove after debugging
+            // --------------------------
             _characterAbilities.StartCoroutine(DrawHitBox(caster));
+            // --------------------------
         }
         
         private IEnumerator AcquireTargetsLinear(GameObject caster, Action<IEnumerable<GameObject>> callback)
@@ -45,7 +47,8 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
             yield return null;
         }
 
-        //Delete after testing
+        // TODO remove after debugging
+        // ----------------------------------------------
         private IEnumerator DrawHitBox(GameObject caster)
         {
             while (true)
@@ -57,6 +60,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
                 yield return null;
             }
         }
+        // ----------------------------------------------
 
         private IEnumerable<GameObject> GetTargetObjects(RaycastHit[] targets)
         {

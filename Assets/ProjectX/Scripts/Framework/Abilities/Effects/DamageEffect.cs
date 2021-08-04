@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace ProjectX.Scripts.Framework.Abilities.Effects
+{
+    [CreateAssetMenu(fileName = "effect_damage", menuName = "Abilities/Effects/Damage", order = -1)]
+    public class DamageEffect : EffectStrategy
+    {
+        [SerializeField] private float damage;
+
+        public override void ApplyEffect(GameObject caster, IEnumerable<GameObject> targets, Action callback)
+        {
+            try
+            {
+                foreach (var target in targets)
+                {
+                    var targetHealthComponent = target.GetComponent<CharacterHealth>();
+                    targetHealthComponent.TakeDamage(damage);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"{e}: Failed to find target health component");
+            }
+            finally
+            {
+                callback();
+            }
+        }
+    }
+}

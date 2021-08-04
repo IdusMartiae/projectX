@@ -46,29 +46,24 @@ namespace ProjectX.Scripts.Framework.Abilities
         public void Deinitialize()
         {
         }
-
+        
+        // TODO REPLACE WITH ACTUALLY USEFUL CALLBACK
         private void PrintTargets(IEnumerable<GameObject> targetObjects)
         {
-            if (targetObjects.IsEmpty())
+            if (filters != null)
             {
-                Debug.Log($"{message}: None");
+                targetObjects = filters.Aggregate(
+                    targetObjects, (current, strategy) => strategy.Filter(current));
             }
-            else
-            {
-                if (filters != null)
-                {
-                    targetObjects = filters.Aggregate(
-                        targetObjects, (current, strategy) => strategy.Filter(current));
-                }
 
-                if (effects != null)
+            if (effects != null)
+            {
+                foreach (var effect in effects)
                 {
-                    foreach (var effect in effects)
-                    {
-                        effect.ApplyEffect(_player, targetObjects, () => {});
-                    }
+                    effect.ApplyEffect(_player, targetObjects, () => { });
                 }
             }
+
         }
     }
 }

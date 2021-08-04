@@ -10,7 +10,7 @@ namespace ProjectX.Scripts.UI
             
         void Update()
         {
-            textHealth.text = $"{healthComponent.CurrentHealth} / {healthComponent.MaxHealth}";
+            textHealth.text = $"{Mathf.Ceil(healthComponent.CurrentHealth)} / {healthComponent.MaxHealth}";
         }
     }
 }

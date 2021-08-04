@@ -1,57 +1,48 @@
+using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework
 {
-    // TODO method basically have the same code, merge where possible
     public class CharacterHealth : MonoBehaviour
     {
         [SerializeField] private float maxHealth;
-        
+
         private float _currentHealth;
 
         // TODO REMOVE AFTER DEBUGGING
         // ----------------------------
         public float CurrentHealth => _currentHealth;
+
         public float MaxHealth => maxHealth;
         // ----------------------------
-        
+
         public void Start()
         {
             _currentHealth = maxHealth;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float health)
         {
-            _currentHealth = Mathf.Max(_currentHealth - damage, 0);
+            _currentHealth = Mathf.Max(_currentHealth - health, 0);
         }
 
-        public void TakeDamagePercentOfMax(float healthPercent)
+        public void TakeDamage(float percent, PercentageType percentageType)
         {
-            healthPercent = Mathf.Clamp01(healthPercent);
-            _currentHealth = Mathf.Max(_currentHealth - maxHealth * healthPercent, 0);
-        }
-
-        public void TakeDamagePercentOfCurrent(float healthPercent)
-        {
-            healthPercent = Mathf.Clamp01(healthPercent);
-            _currentHealth = Mathf.Max(_currentHealth - _currentHealth * healthPercent, 0);
+            var health = (percentageType == PercentageType.OfCurrentValue ? _currentHealth : maxHealth) *
+                     (percent / 100f);
+            _currentHealth = Mathf.Max(_currentHealth - health, 0);
         }
         
-        public void Regenerate(float healthRecovered)
+        public void Heal(float health)
         {
-            _currentHealth = Mathf.Min(_currentHealth + healthRecovered, maxHealth);
+            _currentHealth = Mathf.Min(_currentHealth + health, maxHealth);
         }
 
-        public void RegeneratePercentOfMax(float healthRecoveredPercent)
+        public void Heal(float percent, PercentageType percentageType)
         {
-            healthRecoveredPercent = Mathf.Clamp01(healthRecoveredPercent);
-            _currentHealth = Mathf.Min(_currentHealth + maxHealth * healthRecoveredPercent, maxHealth);
-        }
-
-        public void RegeneratePercentOfCurrent(float healthRecoveredPercent)
-        {
-            healthRecoveredPercent = Mathf.Clamp01(healthRecoveredPercent);
-            _currentHealth = Mathf.Min(_currentHealth + _currentHealth * healthRecoveredPercent, maxHealth);
+            var health = (percentageType == PercentageType.OfCurrentValue ? _currentHealth : maxHealth) *
+                         (percent / 100f);
+            _currentHealth = Mathf.Min(_currentHealth + health, maxHealth);
         }
     }
 }

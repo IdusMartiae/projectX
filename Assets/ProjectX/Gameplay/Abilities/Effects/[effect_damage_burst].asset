@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9bfd60a7b04cd1b54b4486b07e97f2, type: 3}
   m_Name: '[effect_damage_burst]'
   m_EditorClassIdentifier: 
-  damage: 10
+  effect: 1

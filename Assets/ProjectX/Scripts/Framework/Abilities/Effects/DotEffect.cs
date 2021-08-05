@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities.Effects
@@ -12,17 +11,23 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
         [SerializeField] private float duration;
         [SerializeField] private float tickInterval;
 
-        public override void ApplyEffect(GameObject caster, IEnumerable<GameObject> targets, Action callback)
+        private Coroutine _coroutine;
+        
+        public override void ApplyEffect(AbilityData data, Action callback)
         {
-            caster.GetComponent<CharacterAbilities>().StartCoroutine(ApplyDot(caster, targets, callback));
+            if (_coroutine != null)
+            {
+                data.UserAbilitiesComponent.StopCoroutine(_coroutine);
+            }
+            _coroutine = data.UserAbilitiesComponent.StartCoroutine(ApplyDot(data, callback));
         }
 
-        private IEnumerator ApplyDot(GameObject caster, IEnumerable<GameObject> targets, Action callback)
+        private IEnumerator ApplyDot(AbilityData data, Action callback)
         {
             var timer = 0f;
             while (timer < duration)
             {
-                effectToApply.ApplyEffect(caster, targets, () => {});
+                effectToApply.ApplyEffect(data, () => {});
                 yield return new WaitForSeconds(tickInterval);
                 timer += tickInterval;
             }

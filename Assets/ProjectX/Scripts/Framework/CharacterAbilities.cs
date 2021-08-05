@@ -42,10 +42,10 @@ namespace ProjectX.Scripts.Framework
 
         private void InitializeSlots()
         {
-            _playerAbilities.Add(SlotType.Primary, new AbilitySlot(gameObject, primary, "Primary"));
-            _playerAbilities.Add(SlotType.Secondary, new AbilitySlot(gameObject, secondary, "Secondary"));
-            _playerAbilities.Add(SlotType.Slot1, new AbilitySlot(gameObject, slot1, "Slot1"));
-            _playerAbilities.Add(SlotType.Slot2, new AbilitySlot(gameObject, slot2, "Slot2"));
+            _playerAbilities.Add(SlotType.Primary, new AbilitySlot(gameObject, primary));
+            _playerAbilities.Add(SlotType.Secondary, new AbilitySlot(gameObject, secondary));
+            _playerAbilities.Add(SlotType.Slot1, new AbilitySlot(gameObject, slot1));
+            _playerAbilities.Add(SlotType.Slot2, new AbilitySlot(gameObject, slot2));
         }
     }
 }

@@ -13,56 +13,51 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         [SerializeField] private float width;
         [SerializeField] private float range;
         
-        private Vector3 _boxHalfExtends;
-        private CharacterAbilities _characterAbilities;
+        private const float Height = 10f;
+        private Vector3 _boxHalfExtends = Vector3.zero;
         
-        public override void AcquireTargets(GameObject caster, Action<IEnumerable<GameObject>> callback)
+        public override void AcquireTargets(AbilityData data, Action callback)
         {
-            _characterAbilities.StartCoroutine(AcquireTargetsLinear(caster, callback));
+            if (_boxHalfExtends.Equals(Vector3.zero))
+            {
+                _boxHalfExtends = new Vector3(width, Height, 0.1f) / 2;
+            }
+            
+            data.UserAbilitiesComponent.StartCoroutine(AcquireTargetsLinear(data, callback));
+            //data.UserAbilitiesComponent.StartCoroutine(DrawHitBox(data.User));
         }
 
-        public override void InitializeTargeting(GameObject caster)
-        {
-            var casterController = caster.GetComponent<CharacterController>();
-            _characterAbilities = caster.GetComponent<CharacterAbilities>();
-            _boxHalfExtends = new Vector3(width, casterController.height, 0.1f) / 2;
-            
-            // TODO remove after debugging
-            // --------------------------
-            _characterAbilities.StartCoroutine(DrawHitBox(caster));
-            // --------------------------
-        }
         
-        private IEnumerator AcquireTargetsLinear(GameObject caster, Action<IEnumerable<GameObject>> callback)
+        private IEnumerator AcquireTargetsLinear(AbilityData data, Action callback)
         {
-            var targets = Physics.BoxCastAll(
-                caster.transform.position, 
-                _boxHalfExtends, 
-                MouseWorldPosition.GetCoordinates() - caster.transform.position, 
-                Quaternion.identity, 
-                range);
+            var position = data.User.transform.position;
             
-            callback(GetTargetObjects(targets));
+            data.Targets = GetTargetObjects(Physics.BoxCastAll(position, _boxHalfExtends,
+                MouseWorldPosition.GetCoordinates() - position, Quaternion.identity, range));
+            
+            callback();
             
             yield return null;
         }
 
-        // TODO remove after debugging
+        /*// TODO remove after debugging
         // ----------------------------------------------
-        private IEnumerator DrawHitBox(GameObject caster)
+        private IEnumerator DrawHitBox(GameObject user)
         {
             while (true)
             {
-                var dir = - caster.transform.position;
+                var position = user.transform.position;
+                var dir = - position;
                 dir.y = 0;
                 dir += MouseWorldPosition.GetCoordinates();
-                Debug.DrawRay(caster.transform.position, dir.normalized * range);
+                Debug.DrawRay(position, dir.normalized * range);
                 yield return null;
             }
         }
         // ----------------------------------------------
+        */
 
-        private IEnumerable<GameObject> GetTargetObjects(RaycastHit[] targets)
+        private IEnumerable<GameObject> GetTargetObjects(IEnumerable<RaycastHit> targets)
         {
             return targets.Select(target => target.collider.gameObject);
         }

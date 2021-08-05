@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities.Effects
@@ -9,11 +8,11 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
     {
         [SerializeField] private float damage;
 
-        public override void ApplyEffect(GameObject caster, IEnumerable<GameObject> targets, Action callback)
+        public override void ApplyEffect(AbilityData data, Action callback)
         {
             try
             {
-                foreach (var target in targets)
+                foreach (var target in data.Targets)
                 {
                     var targetHealthComponent = target.GetComponent<CharacterHealth>();
                     targetHealthComponent.TakeDamage(damage);

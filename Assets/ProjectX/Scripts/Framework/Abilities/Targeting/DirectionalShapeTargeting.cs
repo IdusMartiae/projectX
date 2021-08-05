@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using ProjectX.Scripts.Tools;
 using UnityEngine;
 
@@ -14,25 +13,32 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         private HitBox _hitBox;
         private CharacterAbilities _characterAbilities;
         
-        public override void AcquireTargets(GameObject caster, Action<IEnumerable<GameObject>> callback)
+        public override void AcquireTargets(AbilityData data, Action callback)
         {
-            _characterAbilities.StartCoroutine(AcquireTargetsShape(callback));
+            if (_hitBox == null)
+            {
+                InitializeTargeting(data.User);
+            }
+            
+            _characterAbilities.StartCoroutine(AcquireTargetsShape(data, callback));
         }
 
-        public override void InitializeTargeting(GameObject caster)
+        private void InitializeTargeting(GameObject user)
         {
-            _hitBox = Instantiate(hitBox, caster.transform);
+            _hitBox = Instantiate(hitBox, user.transform);
             _hitBox.gameObject.SetActive(false);
 
-            _characterAbilities = caster.GetComponent<CharacterAbilities>();
+            _characterAbilities = user.GetComponent<CharacterAbilities>();
         }
 
-        private IEnumerator AcquireTargetsShape(Action<IEnumerable<GameObject>> callback)
+        private IEnumerator AcquireTargetsShape(AbilityData data, Action callback)
         {
             _hitBox.gameObject.SetActive(true);
             yield return null;
-            
-            callback(_hitBox.Targets);
+
+            data.Targets = _hitBox.Targets;
+                
+            callback();
             yield return null;
             
             _hitBox.gameObject.SetActive(false);

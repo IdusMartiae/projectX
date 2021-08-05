@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
@@ -10,12 +9,12 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
     {
         [SerializeField] private PercentageType percentageType;
         [SerializeField] private float percent;
-        
-        public override void ApplyEffect(GameObject caster, IEnumerable<GameObject> targets, Action callback)
+
+        public override void ApplyEffect(AbilityData data, Action callback)
         {
             try
             {
-                foreach (var target in targets)
+                foreach (var target in data.Targets)
                 {
                     var targetHealthComponent = target.GetComponent<CharacterHealth>();
                     targetHealthComponent.Heal(percent, percentageType);

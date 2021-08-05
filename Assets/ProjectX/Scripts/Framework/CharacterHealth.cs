@@ -7,7 +7,7 @@ namespace ProjectX.Scripts.Framework
     {
         [SerializeField] private float maxHealth;
         
-        private float _currentHealth;
+        [SerializeField] private float _currentHealth;
 
         public void Awake()
         {

@@ -1,34 +1,19 @@
 using ProjectX.Scripts.Framework.Abilities;
 using UnityEngine;
-using Zenject;
 
 namespace ProjectX.Scripts.Framework
 {
     public class AbilitySlot
     {
+        private readonly GameObject _user;
         private IAbility _ability;
-        public Transform PlayerTransform { get; }
-        public Animator Animator { get; }
-        public AnimatorOverrideController AnimatorOverrideController { get; }
-        public int TriggerId { get; }
-        public string ClipName { get; }
-
-        [Inject] public InputSystem InputSystem { get; }
-
-        public AbilitySlot(GameObject player, IAbility ability, string triggerName)
+        
+        public AbilitySlot(GameObject user, IAbility ability)
         {
-            ClipName = triggerName;
-            
-            PlayerTransform = player.transform;
-            
-            Animator = player.GetComponent<Animator>();
-            AnimatorOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
-            Animator.runtimeAnimatorController = AnimatorOverrideController;
-            
-            TriggerId = Animator.StringToHash(triggerName);
-            
             _ability = ability;
-            _ability.Initialize(this);
+            _user = user;
+            
+            _ability.Initialize(_user);
         }
         
         public void UseAbility()
@@ -45,7 +30,7 @@ namespace ProjectX.Scripts.Framework
         {
             _ability.Deinitialize();
             _ability = newAbility;
-            _ability.Initialize(this);
+            _ability.Initialize(_user);
         }
     }
 }

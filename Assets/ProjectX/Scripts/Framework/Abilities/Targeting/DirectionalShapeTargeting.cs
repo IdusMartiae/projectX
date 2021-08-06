@@ -11,8 +11,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         [SerializeField] private HitBox hitBox;
         
         private HitBox _hitBox;
-        private CharacterAbilities _characterAbilities;
-        
+
         public override void AcquireTargets(AbilityData data, Action callback)
         {
             if (_hitBox == null)
@@ -20,22 +19,22 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
                 InitializeTargeting(data.User);
             }
             
-            _characterAbilities.StartCoroutine(AcquireTargetsShape(data, callback));
+            data.UserAbilitiesComponent.StartCoroutine(AcquireTargetsShape(data, callback));
         }
 
         private void InitializeTargeting(GameObject user)
         {
             _hitBox = Instantiate(hitBox, user.transform);
-            _hitBox.gameObject.SetActive(false);
-
-            _characterAbilities = user.GetComponent<CharacterAbilities>();
         }
 
         private IEnumerator AcquireTargetsShape(AbilityData data, Action callback)
         {
             _hitBox.gameObject.SetActive(true);
+            _hitBox.transform.LookAt(MouseWorldPosition.GetCoordinates());
             yield return null;
 
+            Debug.DrawRay(_hitBox.transform.position, _hitBox.transform.forward * 3f, Color.red, 500f);
+            
             data.Targets = _hitBox.Targets;
                 
             callback();

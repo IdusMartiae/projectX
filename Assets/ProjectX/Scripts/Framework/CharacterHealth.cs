@@ -6,8 +6,7 @@ namespace ProjectX.Scripts.Framework
     public class CharacterHealth : MonoBehaviour
     {
         [SerializeField] private float maxHealth;
-        
-        [SerializeField] private float _currentHealth;
+        private float _currentHealth;
 
         public void Awake()
         {

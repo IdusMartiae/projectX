@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities.Effects
 {
-    [CreateAssetMenu(fileName = "effect_damage_percent", menuName = "Abilities/Effects/Percentage Damage", order = -4)]
+    [CreateAssetMenu(fileName = "effect_damage_percent", menuName = "Abilities/Effects/Percentage Damage", order = 100)]
     public class PercentDamageEffect : EffectStrategy
     {
         [SerializeField] private PercentageType percentageType;

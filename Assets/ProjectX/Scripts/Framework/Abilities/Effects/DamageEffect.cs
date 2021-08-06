@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities.Effects
 {
-    [CreateAssetMenu(fileName = "effect_damage", menuName = "Abilities/Effects/Damage", order = -1)]
+    [CreateAssetMenu(fileName = "effect_damage", menuName = "Abilities/Effects/Damage", order = 100)]
     public class DamageEffect : EffectStrategy
     {
         [SerializeField] private float damage;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities.Effects
 {
-    [CreateAssetMenu(fileName = "effect_heal_percent", menuName = "Abilities/Effects/Percentage Heal", order = -3)]
+    [CreateAssetMenu(fileName = "effect_heal_percent", menuName = "Abilities/Effects/Percentage Heal", order = 200)]
     public class PercentHealEffect : EffectStrategy
     {
         [SerializeField] private PercentageType percentageType;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities.Effects
 {
-    [CreateAssetMenu(fileName = "effect_heal", menuName = "Abilities/Effects/Heal", order = -2)]
+    [CreateAssetMenu(fileName = "effect_heal", menuName = "Abilities/Effects/Heal", order = 200)]
     public class HealEffect : EffectStrategy
     {
         [SerializeField] private float health;

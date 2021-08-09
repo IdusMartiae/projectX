@@ -1,51 +1,34 @@
+using System;
 using System.Collections.Generic;
-using ProjectX.Scripts.Framework.Abilities;
-using ProjectX.Scripts.Player;
-using ProjectX.Scripts.Tools;
-using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
-using Zenject;
 
 namespace ProjectX.Scripts.Framework
 {
     [RequireComponent(typeof(Animator))]
-    public class CharacterAbilities : MonoBehaviour
+    public abstract class CharacterAbilities : MonoBehaviour
     {
-        [SerializeField] private Ability primary;
-        [SerializeField] private Ability secondary;
-        [SerializeField] private Ability slot1;
-        [SerializeField] private Ability slot2;
-        
-        private readonly Dictionary<SlotType, AbilitySlot> _playerAbilities = new Dictionary<SlotType, AbilitySlot>();
-        
-        [Inject]
-        private void Construct(InputSystem inputSystem)
-        {
-            inputSystem.SlotUp += HandleSlotUp;
-            inputSystem.SlotDown += HandleSlotDown;
-        }
+        protected abstract Dictionary<Tools.Enums.AbilitySlot, AbilitySlot> Abilities { get; set; }
 
-        private void Start()
+        public event Action<Tools.Enums.AbilitySlot> AbilityUsed;
+        public event Action<Tools.Enums.AbilitySlot> AbilityCanceled;
+
+        protected void Start()
         {
             InitializeSlots();
         }
 
-        private void HandleSlotUp(SlotType slot)
+        protected void HandleAbilityUsed(Tools.Enums.AbilitySlot abilitySlot)
         {
-            _playerAbilities[slot].UseAbility();
+           Abilities[abilitySlot].UseAbility();
+           AbilityUsed!(abilitySlot);
         }
 
-        private void HandleSlotDown(SlotType slot)
+        protected void HandleAbilityCanceled(Tools.Enums.AbilitySlot abilitySlot)
         {
-            _playerAbilities[slot].CancelAbility();
+            Abilities[abilitySlot].CancelAbility();
+            AbilityCanceled!(abilitySlot);
         }
 
-        private void InitializeSlots()
-        {
-            _playerAbilities.Add(SlotType.Primary, new AbilitySlot(gameObject, primary));
-            _playerAbilities.Add(SlotType.Secondary, new AbilitySlot(gameObject, secondary));
-            _playerAbilities.Add(SlotType.Slot1, new AbilitySlot(gameObject, slot1));
-            _playerAbilities.Add(SlotType.Slot2, new AbilitySlot(gameObject, slot2));
-        }
+        protected abstract void InitializeSlots();
     }
 }

@@ -24,7 +24,6 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
             }
             
             data.UserAbilitiesComponent.StartCoroutine(AcquireTargetsLinear(data, callback));
-            //data.UserAbilitiesComponent.StartCoroutine(DrawHitBox(data.User));
         }
 
         
@@ -39,24 +38,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
             
             yield return null;
         }
-
-        /*// TODO remove after debugging
-        // ----------------------------------------------
-        private IEnumerator DrawHitBox(GameObject user)
-        {
-            while (true)
-            {
-                var position = user.transform.position;
-                var dir = - position;
-                dir.y = 0;
-                dir += MouseWorldPosition.GetCoordinates();
-                Debug.DrawRay(position, dir.normalized * range);
-                yield return null;
-            }
-        }
-        // ----------------------------------------------
-        */
-
+        
         private IEnumerable<GameObject> GetTargetObjects(IEnumerable<RaycastHit> targets)
         {
             return targets.Select(target => target.collider.gameObject);

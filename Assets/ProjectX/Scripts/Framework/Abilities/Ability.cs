@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using ProjectX.Scripts.Framework.Abilities.Effects;
 using ProjectX.Scripts.Framework.Abilities.Filtering;
@@ -8,7 +6,7 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities
 {
-    [CreateAssetMenu(fileName = "ability_default", menuName = "Abilities/Ability")]
+    [CreateAssetMenu(fileName = "base_ability", menuName = "Abilities/Ability")]
     public class Ability : ScriptableObject, IAbility
     {
         [Header("Common")] 
@@ -28,6 +26,7 @@ namespace ProjectX.Scripts.Framework.Abilities
         
         public void Use()
         {
+            if (targeting == null) return;
             targeting.AcquireTargets(_abilityData, () =>
             {
                 PrintTargets(_abilityData);

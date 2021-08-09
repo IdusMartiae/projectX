@@ -1,10 +1,11 @@
 namespace ProjectX.Scripts.Tools.Enums
 {
-    public enum SlotType
+    public enum AbilitySlot
     {
         Primary,
         Secondary,
-        Slot1,
-        Slot2,
+        First,
+        Second,
+        Third
     }
 }

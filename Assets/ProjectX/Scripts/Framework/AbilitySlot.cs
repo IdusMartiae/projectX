@@ -7,7 +7,7 @@ namespace ProjectX.Scripts.Framework
     {
         private readonly GameObject _user;
         private IAbility _ability;
-        
+
         public AbilitySlot(GameObject user, IAbility ability)
         {
             _ability = ability;

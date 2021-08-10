@@ -11,10 +11,10 @@ namespace ProjectX.Scripts.Tools.SettingsSource
     {
         [SerializeField] private List<KeyBindingWrapper<AxisButtonType>>movementVerticalAxis;
         [SerializeField] private List<KeyBindingWrapper<AxisButtonType>>movementHorizontalAxis;
-        [SerializeField] private List<KeyBindingWrapper<AbilitySlotType>> combat;
+        [SerializeField] private List<KeyBindingWrapper<AbilitySlotEnum>> combat;
 
         public List<KeyBindingWrapper<AxisButtonType>> MovementVerticalAxis => movementVerticalAxis;
         public List<KeyBindingWrapper<AxisButtonType>> MovementHorizontalAxis => movementHorizontalAxis;
-        public List<KeyBindingWrapper<AbilitySlotType>> Combat => combat;
+        public List<KeyBindingWrapper<AbilitySlotEnum>> Combat => combat;
     }
 }

@@ -49,5 +49,9 @@ MonoBehaviour:
     alternativeKey: 0
   - name: Ability Slot 3
     keyAction: 4
-    mainKey: 101
+    mainKey: 114
+    alternativeKey: 0
+  - name: Ability Slot 4
+    keyAction: 5
+    mainKey: 102
     alternativeKey: 0

@@ -1,35 +1,29 @@
-using System;
 using System.Collections.Generic;
 using ProjectX.Scripts.Tools.Enums;
+using ProjectX.Scripts.Tools.Wrappers;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework
 {
-    [RequireComponent(typeof(Animator))]
-    public abstract class CharacterAbilities : MonoBehaviour
+    // TODO THIS IS BASE CHARACTER ABILITIES COMPONENT, MIGHT NEED TO IMPLEMENT PLAYER ABILITIES COMPONENT BECAUSE OF UI DEPENDENCIES
+    public class CharacterAbilities : MonoBehaviour
     {
-        public abstract Dictionary<AbilitySlotType, AbilitySlot> Abilities { get; set; }
+        [SerializeField] private List<SerializableAbilitySlotWrapper> abilitySlots;
         
-        public event Action<AbilitySlotType> AbilityUsed;
-        public event Action<AbilitySlotType> AbilityCanceled;
-
-        protected void Start()
+        private Dictionary<AbilitySlotEnum, AbilitySlot> _abilities;
+        
+        private void Start()
         {
-            InitializeSlots();
+            InitializeAbilitiesDictionary();
         }
-
-        protected void HandleAbilityUsed(AbilitySlotType abilitySlotType)
+        
+        private void InitializeAbilitiesDictionary()
         {
-            Abilities[abilitySlotType].UseAbility();
-            AbilityUsed!(abilitySlotType);
+            _abilities = new Dictionary<AbilitySlotEnum, AbilitySlot>();
+            foreach (var abilitySlot in abilitySlots)
+            {
+                _abilities.Add(abilitySlot.SlotEnum, new AbilitySlot(gameObject, abilitySlot.Ability));
+            }
         }
-
-        protected void HandleAbilityCanceled(AbilitySlotType abilitySlotType)
-        {
-            Abilities[abilitySlotType].CancelAbility();
-            AbilityCanceled!(abilitySlotType);
-        }
-
-        protected abstract void InitializeSlots();
     }
 }

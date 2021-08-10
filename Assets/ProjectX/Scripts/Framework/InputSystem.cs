@@ -31,8 +31,8 @@ namespace ProjectX.Scripts.Framework
                 _horizontalAxis,
                 _verticalAxis);
         
-        public event Action<Tools.Enums.AbilitySlotType> SlotDown;
-        public event Action<Tools.Enums.AbilitySlotType> SlotUp;
+        public event Action<AbilitySlotEnum> SlotDown;
+        public event Action<AbilitySlotEnum> SlotUp;
 
         [Inject]
         private void Construct(KeyBindings keyBindings)
@@ -44,7 +44,29 @@ namespace ProjectX.Scripts.Framework
         {
             GlobalRotation.CalculateGlobalRotation(transform.forward);
         }
+        
+        // TODO THIS IS SIMPLER AND MUCH MORE ELEGANT
+        public bool GetKeyDown(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKeyDown(keyBindingWrapper.MainKey) || Input.GetKeyDown(keyBindingWrapper.AlternativeKey);
+        }
 
+        public bool GetKey(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKey(keyBindingWrapper.MainKey) || Input.GetKey(keyBindingWrapper.AlternativeKey);
+        }
+        
+        public bool GetKeyUp(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKeyUp(keyBindingWrapper.MainKey) || Input.GetKeyUp(keyBindingWrapper.AlternativeKey);
+        }
+        
+        //
+        
+        // TODO MIGHT GET RID OF THOSE
         public void Update()
         {
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyUp, ref _horizontalAxis);

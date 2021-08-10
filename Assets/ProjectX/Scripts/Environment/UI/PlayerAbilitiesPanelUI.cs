@@ -1,28 +1,34 @@
 using System.Collections.Generic;
-using ProjectX.Scripts.Player;
+using ProjectX.Scripts.Framework.Abilities;
+using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
-using Zenject;
 
 namespace ProjectX.Scripts.Environment.UI
 {
+    // TODO THIS SCRIPT SHOULD HAVE REFS TO ABILITY SLOTS AND TAKE ABILITY INFO FROM PLAYER ABILITIES COMPONENT
     public class PlayerAbilitiesPanelUI : MonoBehaviour
     {
-        [SerializeField] private List<AbilitySlotUI>abilitySlots;
-
-        private PlayerAbilities _playerAbilities;
+        [SerializeField] private List<AbilitySlotUI> abilitySlotUIs;
         
-        [Inject]
-        private void Construct(Player.Player player)
-        {
-            _playerAbilities = player.GetComponent<PlayerAbilities>();
-        }
+        private Dictionary<AbilitySlotEnum, AbilitySlotUI> _abilitiesUI;
 
         private void Start()
         {
-            foreach (var abilitySlot in abilitySlots)
+            _abilitiesUI = new Dictionary<AbilitySlotEnum, AbilitySlotUI>();
+            foreach (var abilitySlot in abilitySlotUIs)
             {
-                abilitySlot.InitializeAbility(_playerAbilities.Abilities[abilitySlot.GetSlotType()]);
+                _abilitiesUI.Add(abilitySlot.GetSlotType(), abilitySlot);
             }
         }
+
+        public void UseAbilityInSlot(AbilitySlotEnum abilitySlotEnum)
+        {
+        }
+            
+        public void ChangeAbilityInSlot(AbilitySlotEnum abilitySlotEnum, IAbility newAbility)
+        {
+            //_abilitiesUI[abilitySlotType].ChangeAbility(newAbility);
+        }
+
     }
 }

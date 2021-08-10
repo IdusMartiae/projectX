@@ -160,6 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9048792360343518183}
+  - component: {fileID: 5773006455509010646}
   m_Layer: 5
   m_Name: AbilitySlot
   m_TagString: Untagged
@@ -188,6 +189,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5773006455509010646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9048792360343518182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39635318585a81f45bf87cc181bb8e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 8659099852091590798}
+  keyBinding: {fileID: 9048792360621275284}
+  slotType: 0
 --- !u!1 &9048792360621275286
 GameObject:
   m_ObjectHideFlags: 0

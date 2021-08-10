@@ -31,8 +31,8 @@ namespace ProjectX.Scripts.Framework
                 _horizontalAxis,
                 _verticalAxis);
         
-        public event Action<Tools.Enums.AbilitySlot> SlotDown;
-        public event Action<Tools.Enums.AbilitySlot> SlotUp;
+        public event Action<Tools.Enums.AbilitySlotType> SlotDown;
+        public event Action<Tools.Enums.AbilitySlotType> SlotUp;
 
         [Inject]
         private void Construct(KeyBindings keyBindings)

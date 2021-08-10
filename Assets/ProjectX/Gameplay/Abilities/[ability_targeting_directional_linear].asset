@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755a459e71d54d1da233f2a214de6afc, type: 3}
   m_Name: '[ability_targeting_directional_linear]'
   m_EditorClassIdentifier: 
-  title: 
-  icon: {fileID: 0}
+  title: Slice
+  icon: {fileID: 21300000, guid: 7bf64b5591c24dc4da2d8e09dcae7d3f, type: 3}
   animation: {fileID: 0}
   duration: 0
   cooldown: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework
@@ -7,26 +8,26 @@ namespace ProjectX.Scripts.Framework
     [RequireComponent(typeof(Animator))]
     public abstract class CharacterAbilities : MonoBehaviour
     {
-        protected abstract Dictionary<Tools.Enums.AbilitySlot, AbilitySlot> Abilities { get; set; }
-
-        public event Action<Tools.Enums.AbilitySlot> AbilityUsed;
-        public event Action<Tools.Enums.AbilitySlot> AbilityCanceled;
+        public abstract Dictionary<AbilitySlotType, AbilitySlot> Abilities { get; set; }
+        
+        public event Action<AbilitySlotType> AbilityUsed;
+        public event Action<AbilitySlotType> AbilityCanceled;
 
         protected void Start()
         {
             InitializeSlots();
         }
 
-        protected void HandleAbilityUsed(Tools.Enums.AbilitySlot abilitySlot)
+        protected void HandleAbilityUsed(AbilitySlotType abilitySlotType)
         {
-           Abilities[abilitySlot].UseAbility();
-           AbilityUsed!(abilitySlot);
+            Abilities[abilitySlotType].UseAbility();
+            AbilityUsed!(abilitySlotType);
         }
 
-        protected void HandleAbilityCanceled(Tools.Enums.AbilitySlot abilitySlot)
+        protected void HandleAbilityCanceled(AbilitySlotType abilitySlotType)
         {
-            Abilities[abilitySlot].CancelAbility();
-            AbilityCanceled!(abilitySlot);
+            Abilities[abilitySlotType].CancelAbility();
+            AbilityCanceled!(abilitySlotType);
         }
 
         protected abstract void InitializeSlots();

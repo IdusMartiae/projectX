@@ -21,6 +21,10 @@ namespace ProjectX.Scripts.Framework.Abilities
         [SerializeField] private FilterStrategy[] filters;
         [SerializeField] private EffectStrategy[] effects;
 
+        public Sprite Icon => icon;
+        public float Duration => duration;
+        public float Cooldown => cooldown;
+
         private AbilityData _abilityData;
         private bool _onCooldown;
         

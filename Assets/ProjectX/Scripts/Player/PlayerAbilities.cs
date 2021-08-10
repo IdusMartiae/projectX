@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ProjectX.Scripts.Framework;
 using ProjectX.Scripts.Framework.Abilities;
+using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 using Zenject;
-using AbilitySlot = ProjectX.Scripts.Tools.Enums.AbilitySlot;
 
 namespace ProjectX.Scripts.Player
 {
@@ -15,9 +15,9 @@ namespace ProjectX.Scripts.Player
         [SerializeField] private Ability secondAbility;
         [SerializeField] private Ability thirdAbility;
 
-        protected override Dictionary<AbilitySlot, Framework.AbilitySlot> Abilities { get; set; } =
-            new Dictionary<AbilitySlot, Framework.AbilitySlot>();
-
+        public override Dictionary<AbilitySlotType, AbilitySlot> Abilities { get; set; } =
+            new Dictionary<AbilitySlotType, AbilitySlot>();
+        
         [Inject]
         private void Construct(InputSystem inputSystem)
         {
@@ -27,11 +27,11 @@ namespace ProjectX.Scripts.Player
         
         protected override void InitializeSlots()
         {
-           Abilities.Add(AbilitySlot.Primary, new Framework.AbilitySlot(gameObject, primaryAbility));
-           Abilities.Add(AbilitySlot.Secondary, new Framework.AbilitySlot(gameObject, secondaryAbility));
-           Abilities.Add(AbilitySlot.First, new Framework.AbilitySlot(gameObject, firstAbility));
-           Abilities.Add(AbilitySlot.Second, new Framework.AbilitySlot(gameObject, secondAbility));
-           Abilities.Add(AbilitySlot.Third, new Framework.AbilitySlot(gameObject, thirdAbility));
+           Abilities.Add(AbilitySlotType.Primary, new AbilitySlot(gameObject, primaryAbility));
+           Abilities.Add(AbilitySlotType.Secondary, new AbilitySlot(gameObject, secondaryAbility));
+           Abilities.Add(AbilitySlotType.First, new AbilitySlot(gameObject, firstAbility));
+           Abilities.Add(AbilitySlotType.Second, new AbilitySlot(gameObject, secondAbility));
+           Abilities.Add(AbilitySlotType.Third, new AbilitySlot(gameObject, thirdAbility));
         }
     }
 }

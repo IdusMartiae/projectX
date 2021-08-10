@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755a459e71d54d1da233f2a214de6afc, type: 3}
   m_Name: '[ability_targeting_directional_ shape]'
   m_EditorClassIdentifier: 
-  title: 
-  icon: {fileID: 0}
+  title: Cone strike
+  icon: {fileID: 21300000, guid: 3b91dabadd524e147b0f880cf2da3840, type: 3}
   animation: {fileID: 0}
   duration: 0
   cooldown: 0

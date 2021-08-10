@@ -31,11 +31,11 @@ MonoBehaviour:
     mainKey: 97
     alternativeKey: 276
   combat:
-  - name: Primary Attack
+  - name: Primary
     keyAction: 0
     mainKey: 323
     alternativeKey: 0
-  - name: Secondary Attack
+  - name: Secondary
     keyAction: 1
     mainKey: 324
     alternativeKey: 0
@@ -49,5 +49,5 @@ MonoBehaviour:
     alternativeKey: 0
   - name: Ability Slot 3
     keyAction: 4
-    mainKey: 102
+    mainKey: 101
     alternativeKey: 0

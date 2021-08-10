@@ -15,5 +15,10 @@ namespace ProjectX.Scripts.Tools.Installers
             Container.BindInstance(inputSystem).AsSingle();
             Container.BindInstance(keyBindings).AsSingle();
         }
+
+        private void Awake()
+        {
+            KeyBindingsHelper.SetKeyBindings(keyBindings);
+        }
     }
 }

@@ -1,6 +1,6 @@
 namespace ProjectX.Scripts.Tools.Enums
 {
-    public enum AbilitySlot
+    public enum AbilitySlotType
     {
         Primary,
         Secondary,

@@ -32,5 +32,10 @@ namespace ProjectX.Scripts.Framework
             _ability = newAbility;
             _ability.Initialize(_user);
         }
+
+        public Ability GetAbility()
+        {
+            return (Ability)_ability;
+        }
     }
 }

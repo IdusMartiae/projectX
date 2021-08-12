@@ -7,6 +7,7 @@ namespace ProjectX.Scripts.Framework
     [RequireComponent(typeof(CharacterController))]
     public class CharacterLocomotion : MonoBehaviour
     {
+        // TODO DECOUPLE MOVEMENT FORM INPUT SYSTEM, IF USED ON NPC IT SHOULD DEPEND ON EXTERNAL INPUT AND PASS DIRECTIONS THROUGH PARAMETERS
         [SerializeField] private PlayerLocomotionSettings locomotionSettings;
             
         private CharacterController _characterController;

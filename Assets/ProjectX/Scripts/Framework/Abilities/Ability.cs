@@ -1,7 +1,10 @@
+using System;
 using System.Linq;
 using ProjectX.Scripts.Framework.Abilities.Effects;
 using ProjectX.Scripts.Framework.Abilities.Filtering;
 using ProjectX.Scripts.Framework.Abilities.Targeting;
+using ProjectX.Scripts.Player;
+using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities
@@ -21,49 +24,42 @@ namespace ProjectX.Scripts.Framework.Abilities
         [SerializeField] private FilterStrategy[] filters;
         [SerializeField] private EffectStrategy[] effects;
 
-        public Sprite Icon => icon;
-        public float Duration => duration;
-        public float Cooldown => cooldown;
-
         private AbilityData _abilityData;
-        private bool _onCooldown;
         
-        public void Use()
-        {
-            if (targeting == null) return;
-            targeting.AcquireTargets(_abilityData, () =>
-            {
-                PrintTargets(_abilityData);
-            });
-        }
-
-        public void Cancel()
-        {
-        }
-
+        public Sprite Icon => icon;
+        
         public void Initialize(GameObject user)
         {
             _abilityData = new AbilityData(user);
         }
 
-        public void Deinitialize()
+        public void Use(Action<AbilityPhase> callback)
         {
+            
+            if (targeting == null) return;
+            
+            targeting.AcquireTargets(_abilityData, () =>
+                {
+                    ApplyFilters(_abilityData);
+                    ApplyEffects(_abilityData);
+                }
+            );
         }
 
-        // TODO REPLACE WITH ACTUALLY USEFUL CALLBACK
-        private void PrintTargets(AbilityData data)
+        private void ApplyFilters(AbilityData data)
         {
             if (filters != null)
             {
                 data.Targets = filters.Aggregate(data.Targets, (current, strategy) => strategy.Filter(current));
             }
+        }
 
-            if (effects != null)
+        private void ApplyEffects(AbilityData data)
+        {
+            if (effects == null) return;
+            foreach (var effect in effects)
             {
-                foreach (var effect in effects)
-                {
-                    effect.ApplyEffect(data, () => { });
-                }
+                effect.ApplyEffect(data, () => { });
             }
         }
     }

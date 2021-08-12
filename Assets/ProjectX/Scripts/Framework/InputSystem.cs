@@ -11,7 +11,7 @@ namespace ProjectX.Scripts.Framework
 {
     public class InputSystem : MonoBehaviour
     {
-        private KeyBindings _keyBindings;
+        private static KeyBindings _keyBindings;
         private float _verticalAxis;
         private float _horizontalAxis;
         
@@ -46,19 +46,19 @@ namespace ProjectX.Scripts.Framework
         }
         
         // TODO THIS IS SIMPLER AND MUCH MORE ELEGANT
-        public bool GetKeyDown(AbilitySlotEnum abilitySlotEnum)
+        public static bool GetKeyDown(AbilitySlotEnum abilitySlotEnum)
         {
             var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
             return Input.GetKeyDown(keyBindingWrapper.MainKey) || Input.GetKeyDown(keyBindingWrapper.AlternativeKey);
         }
 
-        public bool GetKey(AbilitySlotEnum abilitySlotEnum)
+        public static bool GetKey(AbilitySlotEnum abilitySlotEnum)
         {
             var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
             return Input.GetKey(keyBindingWrapper.MainKey) || Input.GetKey(keyBindingWrapper.AlternativeKey);
         }
         
-        public bool GetKeyUp(AbilitySlotEnum abilitySlotEnum)
+        public static bool GetKeyUp(AbilitySlotEnum abilitySlotEnum)
         {
             var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
             return Input.GetKeyUp(keyBindingWrapper.MainKey) || Input.GetKeyUp(keyBindingWrapper.AlternativeKey);

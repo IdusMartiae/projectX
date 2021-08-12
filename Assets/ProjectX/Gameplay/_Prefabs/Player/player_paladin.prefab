@@ -1614,6 +1614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b9a4d8292124319952ae6ecd27c35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAbilities: {fileID: 3454948111238079089}
 --- !u!143 &1918570903315557579
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1671,23 +1672,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ae64c16f0242c8823df2d26875f8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilitySlots:
-  - elementName: Ability Slot Primary
+  abilitySlotWrappers:
+  - elementName: ' Primary Ability Slot'
     slotEnum: 0
     ability: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
-  - elementName: Ability Slot Secondary
+  - elementName: Secondary Ability Slot
     slotEnum: 1
     ability: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
   - elementName: Ability Slot 1
     slotEnum: 2
     ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
-  - elementName: Ability Slot 2
+  - elementName: Abililty Slot 2
     slotEnum: 3
     ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
-  - elementName: Ability Slot 3
+  - elementName: Abililty Slot 3
     slotEnum: 4
     ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
-  - elementName: Ability Slot 4
+  - elementName: Abililty Slot 4
     slotEnum: 5
     ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
 --- !u!1 &5689218156334022328

@@ -1,9 +1,12 @@
+using System.Collections;
 using ProjectX.Scripts.Framework;
+using ProjectX.Scripts.Framework.Abilities;
 using ProjectX.Scripts.Tools;
 using ProjectX.Scripts.Tools.Enums;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ProjectX.Scripts.Environment.UI
 {
@@ -16,7 +19,9 @@ namespace ProjectX.Scripts.Environment.UI
         [SerializeField] private AbilitySlotEnum slotEnum;
 
         private AbilitySlot _abilitySlot;
-
+        
+        [Inject] private Player.Player _player;
+        
         private void Start()
         {
             keyBinding.text = KeyBindingsHelper.GetStringKeyBindingCombatMain(slotEnum, true);
@@ -24,8 +29,11 @@ namespace ProjectX.Scripts.Environment.UI
 
         private void Update()
         {
+            cooldownMask.fillAmount = _player
+                .GetComponent<CooldownStore>()
+                .GetPercentageRemaining(_abilitySlot.GetAbility());;
         }
-
+        
         public void UpdateUI()
         {
             if (_abilitySlot == null) return;
@@ -44,5 +52,6 @@ namespace ProjectX.Scripts.Environment.UI
         {
             return slotEnum;
         }
+        
     }
 }

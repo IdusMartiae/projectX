@@ -1,49 +1,43 @@
-using System;
 using System.Collections.Generic;
 using ProjectX.Scripts.Framework;
-using ProjectX.Scripts.Framework.Abilities;
 using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
+using Zenject;
 
 namespace ProjectX.Scripts.Environment.UI
 {
     public class PlayerAbilitiesPanelUI : MonoBehaviour
     {
         [SerializeField] private List<AbilitySlotUI> abilitySlots;
-        [SerializeField] private CharacterAbilities playerAbilities;
-        
-        private readonly Dictionary<AbilitySlotEnum, AbilitySlotUI> _abilitySlotsUI = new Dictionary<AbilitySlotEnum, AbilitySlotUI>();
 
+        private readonly Dictionary<AbilitySlotEnum, AbilitySlotUI> _abilitySlotsUI =
+            new Dictionary<AbilitySlotEnum, AbilitySlotUI>();
 
-        private bool init = false;
-        
+        private CharacterAbilities _playerAbilities;
+
+        [Inject]
+        private void Construct(Player.Player player)
+        {
+            _playerAbilities = player.GetComponent<CharacterAbilities>();
+        }
+
         private void Start()
         {
             foreach (var abilitySlot in abilitySlots)
             {
                 _abilitySlotsUI.Add(abilitySlot.GetSlotType(), abilitySlot);
+                _abilitySlotsUI[abilitySlot.GetSlotType()]
+                    .SetAbilitySlot(_playerAbilities.GetAbilitySlots()[abilitySlot.GetSlotType()]);
             }
         }
 
         private void Update()
         {
-            if (init) return;
-            InitializeAbilities();
-            init = true;
         }
 
-        public void InitializeAbilities()
+        public void ChangeAbilityInSlot(AbilitySlotEnum slot)
         {
-            foreach (var abilitySlotUI in _abilitySlotsUI)
-            {
-                abilitySlotUI.Value.SetAbilitySlot(playerAbilities.GetAbilitySlots()[abilitySlotUI.Key]);
-            }
+            _abilitySlotsUI[slot].UpdateUI();
         }
-        
-        public void ChangeAbilityInSlot(AbilitySlotEnum slot, IAbility newAbility)
-        {
-            //_abilitiesUI[slot].ChangeAbility(newAbility);
-        }
-
     }
 }

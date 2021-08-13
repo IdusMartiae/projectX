@@ -19,7 +19,7 @@ namespace ProjectX.Scripts.Framework.Abilities
 
         [Header("Parameters")] 
         [SerializeField] protected float duration;
-        [SerializeField] protected float cooldown;
+        [SerializeField] protected float cooldown = 0;
         [SerializeField] private TargetingStrategy targeting;
         [SerializeField] private FilterStrategy[] filters;
         [SerializeField] private EffectStrategy[] effects;
@@ -35,11 +35,18 @@ namespace ProjectX.Scripts.Framework.Abilities
 
         public void Use(Action<AbilityPhase> callback)
         {
+            var cooldownStore = _abilityData.User.GetComponent<CooldownStore>();
+            
+            if (cooldownStore.GetCooldownTimeRemaining(this) > 0)
+            {
+                return;
+            }
             
             if (targeting == null) return;
             
             targeting.AcquireTargets(_abilityData, () =>
                 {
+                    cooldownStore.StartCooldown(this, cooldown);
                     ApplyFilters(_abilityData);
                     ApplyEffects(_abilityData);
                 }
@@ -48,15 +55,16 @@ namespace ProjectX.Scripts.Framework.Abilities
 
         private void ApplyFilters(AbilityData data)
         {
-            if (filters != null)
+            if (filters == null)
             {
-                data.Targets = filters.Aggregate(data.Targets, (current, strategy) => strategy.Filter(current));
+                return;
             }
+            
+            data.Targets = filters.Aggregate(data.Targets, (current, strategy) => strategy.Filter(current));
         }
 
         private void ApplyEffects(AbilityData data)
         {
-            if (effects == null) return;
             foreach (var effect in effects)
             {
                 effect.ApplyEffect(data, () => { });

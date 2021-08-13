@@ -1246,7 +1246,6 @@ MonoBehaviour:
   - {fileID: 1858819264}
   - {fileID: 1178222926}
   - {fileID: 1036438931}
-  playerAbilities: {fileID: 3454948111238079089, guid: 77713b303d0ff466f88e023478a878a2, type: 3}
 --- !u!224 &873824921 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9048792360343518183, guid: 9abad37050bbddb40b0f0b4cb481ddf3, type: 3}

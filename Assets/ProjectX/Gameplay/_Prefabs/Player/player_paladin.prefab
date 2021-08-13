@@ -1557,6 +1557,7 @@ GameObject:
   - component: {fileID: 1314834625789639059}
   - component: {fileID: 581071834325465005}
   - component: {fileID: 3454948111238079089}
+  - component: {fileID: -5720319867726611403}
   m_Layer: 6
   m_Name: player_paladin
   m_TagString: Untagged
@@ -1691,6 +1692,18 @@ MonoBehaviour:
   - elementName: Abililty Slot 4
     slotEnum: 5
     ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
+--- !u!114 &-5720319867726611403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660103553957104822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb679427632e422faad0491790ab1592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5689218156334022328
 GameObject:
   m_ObjectHideFlags: 0

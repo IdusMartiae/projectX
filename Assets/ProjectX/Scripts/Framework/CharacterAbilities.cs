@@ -10,16 +10,17 @@ namespace ProjectX.Scripts.Framework
     {
         [SerializeField] private List<SerializableAbilitySlotWrapper> abilitySlotWrappers;
 
-        private Dictionary<AbilitySlotEnum, AbilitySlot> _abilitySlots = new Dictionary<AbilitySlotEnum, AbilitySlot>();
+        private Dictionary<AbilitySlotEnum, AbilitySlot> _abilitySlots;
     
         private void Start()
         {
+            _abilitySlots = new Dictionary<AbilitySlotEnum, AbilitySlot>();
             foreach (var abilitySlot in abilitySlotWrappers)
             {
                 _abilitySlots.Add(abilitySlot.SlotEnum, new AbilitySlot(gameObject, abilitySlot.Ability));
             }
         }
-
+        
         public void UseAbilityInSlot(AbilitySlotEnum slot, Action<AbilityPhase> callback)
         {
             _abilitySlots[slot].UseAbility(callback);

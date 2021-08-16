@@ -1,34 +1,35 @@
 using System;
 using System.Collections.Generic;
+using ProjectX.Scripts.Framework.Abilities;
 using ProjectX.Scripts.Tools.Enums;
-using ProjectX.Scripts.Tools.Wrappers;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework
 {
+    [RequireComponent(typeof(CooldownStore))]
     public class CharacterAbilities : MonoBehaviour
     {
-        [SerializeField] private List<SerializableAbilitySlotWrapper> abilitySlotWrappers;
+        [SerializeField] private List<AbilitySlot> abilitySlots;
 
-        private Dictionary<AbilitySlotEnum, AbilitySlot> _abilitySlots;
-    
-        private void Start()
+        private readonly Dictionary<AbilitySlotEnum, AbilitySlot> _abilitySlotsDictionary = new Dictionary<AbilitySlotEnum, AbilitySlot>();
+
+        private void Awake()
         {
-            _abilitySlots = new Dictionary<AbilitySlotEnum, AbilitySlot>();
-            foreach (var abilitySlot in abilitySlotWrappers)
+            foreach (var abilitySlot in abilitySlots)
             {
-                _abilitySlots.Add(abilitySlot.SlotEnum, new AbilitySlot(gameObject, abilitySlot.Ability));
+                _abilitySlotsDictionary[abilitySlot.GetSlotType()] = abilitySlot;
+                abilitySlot.Initialize(gameObject);
             }
         }
         
         public void UseAbilityInSlot(AbilitySlotEnum slot, Action<AbilityPhase> callback)
         {
-            _abilitySlots[slot].UseAbility(callback);
+            _abilitySlotsDictionary[slot].UseAbility(callback);
         }
 
         public Dictionary<AbilitySlotEnum, AbilitySlot> GetAbilitySlots()
         {
-            return _abilitySlots;
+            return _abilitySlotsDictionary;
         }
     }
 }

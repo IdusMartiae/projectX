@@ -5,33 +5,39 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework
 {
+    [Serializable]
     public class AbilitySlot
     {
-        private readonly GameObject _user;
-        private IAbility _ability;
+        [SerializeField] private AbilitySlotEnum slotType;
+        [SerializeField] private Ability ability;
+        
+        private GameObject _user;
 
-        public AbilitySlot(GameObject user, IAbility ability)
+        public void Initialize(GameObject user)
         {
-            _ability = ability;
             _user = user;
-
-            _ability.Initialize(_user);
+            ability.Initialize(_user, slotType);
         }
 
         public void UseAbility(Action<AbilityPhase> callback)
         {
-            _ability.Use(callback);
+            ability.Use(callback);
         }
 
-        public void ChangeAbility(IAbility newAbility)
+        public void ChangeAbility(Ability newAbility)
         {
-            _ability = newAbility;
-            _ability.Initialize(_user);
+            ability = newAbility;
+            ability.Initialize(_user, slotType);
         }
 
         public Ability GetAbility()
         {
-            return (Ability) _ability;
+            return ability;
+        }
+
+        public AbilitySlotEnum GetSlotType()
+        {
+            return slotType;
         }
     }
 }

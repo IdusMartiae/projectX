@@ -1,4 +1,3 @@
-using System.Collections;
 using ProjectX.Scripts.Framework;
 using ProjectX.Scripts.Framework.Abilities;
 using ProjectX.Scripts.Tools;
@@ -19,8 +18,13 @@ namespace ProjectX.Scripts.Environment.UI
         [SerializeField] private AbilitySlotEnum slotEnum;
 
         private AbilitySlot _abilitySlot;
+        private Player.Player _player;
         
-        [Inject] private Player.Player _player;
+        [Inject] 
+        private void Construct(Player.Player player)
+        {
+            _player = player;
+        }
         
         private void Start()
         {
@@ -31,13 +35,14 @@ namespace ProjectX.Scripts.Environment.UI
         {
             cooldownMask.fillAmount = _player
                 .GetComponent<CooldownStore>()
-                .GetPercentageRemaining(_abilitySlot.GetAbility());;
+                .GetPercentageRemaining(_abilitySlot.GetAbility());
+            ;
         }
-        
+
         public void UpdateUI()
         {
             if (_abilitySlot == null) return;
-            
+
             icon.sprite = _abilitySlot.GetAbility().Icon;
             cooldownMask.sprite = _abilitySlot.GetAbility().Icon;
         }
@@ -52,6 +57,5 @@ namespace ProjectX.Scripts.Environment.UI
         {
             return slotEnum;
         }
-        
     }
 }

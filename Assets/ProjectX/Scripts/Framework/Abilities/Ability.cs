@@ -10,7 +10,7 @@ using UnityEngine;
 namespace ProjectX.Scripts.Framework.Abilities
 {
     [CreateAssetMenu(fileName = "base_ability", menuName = "Abilities/Ability")]
-    public class Ability : ScriptableObject, IAbility
+    public class Ability : ScriptableObject
     {
         [Header("Common")] 
         [SerializeField] protected string title;
@@ -28,9 +28,9 @@ namespace ProjectX.Scripts.Framework.Abilities
         
         public Sprite Icon => icon;
         
-        public void Initialize(GameObject user)
+        public void Initialize(GameObject user, AbilitySlotEnum slotType)
         {
-            _abilityData = new AbilityData(user);
+            _abilityData = new AbilityData(user, slotType);
         }
 
         public void Use(Action<AbilityPhase> callback)

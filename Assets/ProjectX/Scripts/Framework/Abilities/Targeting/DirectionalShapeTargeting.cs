@@ -9,6 +9,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
     public class DirectionalShapeTargeting : TargetingStrategy
     {
         [SerializeField] private HitBox hitBoxPrefab;
+        [SerializeField] private float forwardOffset;
         
         private HitBox _hitBox;
 
@@ -25,6 +26,8 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         private void InitializeTargeting(GameObject user)
         {
             _hitBox = Instantiate(hitBoxPrefab, user.transform);
+            _hitBox.transform.position += Vector3.forward * forwardOffset;
+            
             _hitBox.gameObject.SetActive(false);
         }
 

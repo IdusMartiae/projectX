@@ -16,7 +16,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         
         public override void AcquireTargets(AbilityData data, Action callback)
         {
-            if (_hitBox == null)
+            if (_aim == null)
             {
                 InitializeTargeting(data.User);
             }
@@ -26,11 +26,11 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
 
         private void InitializeTargeting(GameObject user)
         {
-            _hitBox = Instantiate(hitBoxPrefab, user.transform);
-            _hitBox.gameObject.SetActive(false);
-                
             _aim = Instantiate(aimPrefab, user.transform);
             _aim.SetActive(false);
+            
+            _hitBox = Instantiate(hitBoxPrefab, user.transform);
+            _hitBox.gameObject.SetActive(false);
         }
         
         private IEnumerator AcquireTargetsShape(AbilityData data, Action callback)

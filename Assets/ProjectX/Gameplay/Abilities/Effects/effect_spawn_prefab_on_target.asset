@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aa5c8d805aa46a9b7a1486d9d96d88a, type: 3}
-  m_Name: effect_delayed_effects
+  m_Script: {fileID: 11500000, guid: 77005a3d391244db9e4d3cc5963ebb0a, type: 3}
+  m_Name: effect_spawn_prefab_on_target
   m_EditorClassIdentifier: 
-  effectStrategies: []
-  delayTime: 5
+  prefab: {fileID: 7235379389965493082, guid: 359ea53646fec9845a0e4da0a70ac853, type: 3}
+  lifetime: 2

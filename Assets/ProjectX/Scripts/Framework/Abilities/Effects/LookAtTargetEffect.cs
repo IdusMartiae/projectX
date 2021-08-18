@@ -9,7 +9,8 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
     {
         public override void ApplyEffect(AbilityData data, Action callback)
         {
-            data.User.transform.LookAt(MouseWorldPosition.GetCoordinates());
+            data.User.transform.LookAt(data.TargetedPoint);
+            callback();
         }
     }
 }

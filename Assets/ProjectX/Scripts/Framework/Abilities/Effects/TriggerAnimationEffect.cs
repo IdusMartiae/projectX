@@ -19,6 +19,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
             }
             
             _animator.SetTrigger(data.TriggerName);
+            callback();
         }
         
     }

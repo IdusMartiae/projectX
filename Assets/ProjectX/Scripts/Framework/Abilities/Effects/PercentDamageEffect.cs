@@ -9,25 +9,16 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
     {
         [SerializeField] private PercentageType percentageType;
         [SerializeField] private float percent;
-        
+
         public override void ApplyEffect(AbilityData data, Action callback)
         {
-            try
+            foreach (var target in data.Targets)
             {
-                foreach (var target in data.Targets)
-                {
-                    var targetHealthComponent = target.GetComponent<CharacterHealth>();
-                    targetHealthComponent.TakeDamage(percent, percentageType);
-                }
+                var targetHealthComponent = target.GetComponent<CharacterHealth>();
+                targetHealthComponent.TakeDamage(percent, percentageType);
             }
-            catch (Exception e)
-            {
-                Debug.LogError($"{e}: Failed to find target health component");
-            }
-            finally
-            {
-                callback();
-            }
+
+            callback();
         }
     }
 }

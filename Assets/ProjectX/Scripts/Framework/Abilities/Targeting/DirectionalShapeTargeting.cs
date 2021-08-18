@@ -20,7 +20,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
                 InitializeTargeting(data.User);
             }
             
-            data.UserAbilitiesComponent.StartCoroutine(AcquireTargetsShape(data, callback));
+            data.StartCoroutine(AcquireTargetsShape(data, callback));
         }
 
         private void InitializeTargeting(GameObject user)
@@ -33,15 +33,17 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
 
         private IEnumerator AcquireTargetsShape(AbilityData data, Action callback)
         {
+            data.TargetedPoint = MouseWorldPosition.GetCoordinates();
+            
             _hitBox.gameObject.SetActive(true);
-            _hitBox.transform.LookAt(MouseWorldPosition.GetCoordinates());
+            _hitBox.transform.LookAt(data.TargetedPoint);
             yield return null;
             
             data.Targets = _hitBox.Targets;
-            callback();
             yield return null;
             
             _hitBox.gameObject.SetActive(false);
+            callback();
         }
         
     }

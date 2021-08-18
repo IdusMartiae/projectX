@@ -18,18 +18,18 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         {
             if (_aim == null)
             {
-                InitializeTargeting(data.User);
+                InitializeTargeting();
             }
             
-            data.UserAbilitiesComponent.StartCoroutine(AcquireTargetsShape(data, callback));
+            data.StartCoroutine(AcquireTargetsShape(data, callback));
         }
 
-        private void InitializeTargeting(GameObject user)
+        private void InitializeTargeting()
         {
-            _aim = Instantiate(aimPrefab, user.transform);
+            _aim = Instantiate(aimPrefab);
             _aim.SetActive(false);
             
-            _hitBox = Instantiate(hitBoxPrefab, user.transform);
+            _hitBox = Instantiate(hitBoxPrefab);
             _hitBox.gameObject.SetActive(false);
         }
         
@@ -42,16 +42,18 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
                 yield return null;
             }
             
+            data.TargetedPoint = _aim.transform.position;
+            
             _aim.SetActive(false);
             _hitBox.gameObject.SetActive(true);
-            _hitBox.transform.position = _aim.transform.position;
+            _hitBox.transform.position = data.TargetedPoint;
             yield return null;
 
             data.Targets = _hitBox.Targets;
-            callback();
             yield return null;
             
             _hitBox.gameObject.SetActive(false);
+            callback();
         }
     }
 }

@@ -18,7 +18,9 @@ MonoBehaviour:
   duration: 0
   cooldown: 2
   targeting: {fileID: 11400000, guid: 7e68171b23676a24584da231240d058a, type: 2}
-  filters: []
+  filters:
+  - {fileID: 11400000, guid: 90521f5ba7bed46c1b62f5beb4ebb512, type: 2}
   effects:
   - {fileID: 11400000, guid: 66080234b18c689499987ed8c9f3d8c1, type: 2}
   - {fileID: 11400000, guid: cc84535da866f4514b92ad64d7389102, type: 2}
+  - {fileID: 11400000, guid: f200a07259de8fe4f9fd04afcddb2a36, type: 2}

@@ -10,22 +10,13 @@ namespace ProjectX.Scripts.Framework.Abilities.Effects
 
         public override void ApplyEffect(AbilityData data, Action callback)
         {
-            try
+            foreach (var target in data.Targets)
             {
-                foreach (var target in data.Targets)
-                {
-                    var targetHealthComponent = target.GetComponent<CharacterHealth>();
-                    targetHealthComponent.Heal(health);
-                }
+                var targetHealthComponent = target.GetComponent<CharacterHealth>();
+                targetHealthComponent.Heal(health);
             }
-            catch (Exception e)
-            {
-                Debug.Log($"{e}: Failed to find target health component");
-            }
-            finally
-            {
-                callback();
-            }
+
+            callback();
         }
     }
 }

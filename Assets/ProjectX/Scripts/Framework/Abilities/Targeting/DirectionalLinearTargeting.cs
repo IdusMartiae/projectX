@@ -23,20 +23,21 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
                 _boxHalfExtends = new Vector3(width, Height, 0.1f) / 2;
             }
             
-            data.UserAbilitiesComponent.StartCoroutine(AcquireTargetsLinear(data, callback));
+            data.StartCoroutine(AcquireTargetsLinear(data, callback));
         }
 
         
         private IEnumerator AcquireTargetsLinear(AbilityData data, Action callback)
         {
+            data.TargetedPoint = MouseWorldPosition.GetCoordinates();
+            
             var position = data.User.transform.position;
             
             data.Targets = GetTargetObjects(Physics.BoxCastAll(position, _boxHalfExtends,
-                MouseWorldPosition.GetCoordinates() - position, Quaternion.identity, range));
+                data.TargetedPoint - position, Quaternion.identity, range));
+            yield return null;
             
             callback();
-            
-            yield return null;
         }
         
         private IEnumerable<GameObject> GetTargetObjects(IEnumerable<RaycastHit> targets)

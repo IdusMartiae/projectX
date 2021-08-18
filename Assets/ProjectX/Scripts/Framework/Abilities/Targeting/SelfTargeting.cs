@@ -8,6 +8,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
     {
         public override void AcquireTargets(AbilityData data, Action callback)
         {
+            data.TargetedPoint = data.User.transform.position;
             data.Targets = new[] {data.User};
             callback();
         }

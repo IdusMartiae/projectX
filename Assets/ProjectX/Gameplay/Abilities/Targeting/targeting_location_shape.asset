@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: targeting_location_shape
   m_EditorClassIdentifier: 
   aimPrefab: {fileID: 273602037957110341, guid: 92bddbb2ba54dbf4da3ac8610bd37a42, type: 3}
-  hitBoxPrefab: {fileID: 6913691506870097370, guid: a7514e40c37794d578ba0b7c06e1d93f, type: 3}
+  hitBoxPrefab: {fileID: 4788963121481461768, guid: a7514e40c37794d578ba0b7c06e1d93f, type: 3}

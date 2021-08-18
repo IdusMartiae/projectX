@@ -22,7 +22,7 @@ namespace ProjectX.Scripts.Framework
             }
         }
         
-        public void UseAbilityInSlot(AbilitySlotEnum slot, Action<AbilityPhase> callback)
+        public void UseAbilityInSlot(AbilitySlotEnum slot, Action callback)
         {
             _abilitySlotsDictionary[slot].UseAbility(callback);
         }

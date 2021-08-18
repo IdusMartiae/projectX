@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: magic_circle
   icon: {fileID: 21300000, guid: f65a660bf9eb21d42b1754019bdf5fd4, type: 3}
-  animation: {fileID: 0}
+  description: 
   duration: 0
   cooldown: 2
   targeting: {fileID: 11400000, guid: 7e68171b23676a24584da231240d058a, type: 2}
   filters: []
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: 66080234b18c689499987ed8c9f3d8c1, type: 2}
+  - {fileID: 11400000, guid: cc84535da866f4514b92ad64d7389102, type: 2}

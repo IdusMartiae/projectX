@@ -36,7 +36,7 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
         private IEnumerator AcquireTargetsShape(AbilityData data, Action callback)
         {
             _aim.SetActive(true);
-            while (InputSystem.GetKey(data.SlotType))
+            while (InputSystem.GetKey(data.AbilitySlot.GetSlotType()))
             {
                 _aim.transform.position = MouseWorldPosition.GetCoordinates();
                 yield return null;

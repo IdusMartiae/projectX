@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities
@@ -9,12 +8,14 @@ namespace ProjectX.Scripts.Framework.Abilities
         public GameObject User { get; }
         public IEnumerable<GameObject> Targets { get; set; }
         public CharacterAbilities UserAbilitiesComponent { get; }
-        public AbilitySlotEnum SlotType { get; }
+        public AbilitySlot AbilitySlot { get; }
+        public string TriggerName { get; }
 
-        public AbilityData(GameObject user, AbilitySlotEnum slotType)
+        public AbilityData(GameObject user, AbilitySlot abilitySlot)
         {
             User = user;
-            SlotType = slotType;
+            AbilitySlot = abilitySlot;
+            TriggerName = abilitySlot.GetSlotType().ToString();
             UserAbilitiesComponent = user.GetComponent<CharacterAbilities>();
         }
     }

@@ -12,6 +12,7 @@ namespace ProjectX.Scripts.Player
         [SerializeField] private string speedParameterName;
         
         private Animator _animator;
+        private AnimatorOverrideController _animatorOverrideController;
         private InputSystem _inputSystem;
         private int _movementSpeed;
 
@@ -24,6 +25,9 @@ namespace ProjectX.Scripts.Player
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+            _animatorOverrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+            _animator.runtimeAnimatorController = _animatorOverrideController;
+            
             _movementSpeed = Animator.StringToHash(speedParameterName);
         }
 

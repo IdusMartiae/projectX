@@ -15,11 +15,11 @@ namespace ProjectX.Scripts.Framework.Abilities
         [Header("Common")] 
         [SerializeField] protected string title;
         [SerializeField] protected Sprite icon;
-        [SerializeField] protected AnimationClip animation;
+        [SerializeField, Multiline(5)] protected string description;
 
         [Header("Parameters")] 
         [SerializeField] protected float duration;
-        [SerializeField] protected float cooldown = 0;
+        [SerializeField] protected float cooldown;
         [SerializeField] private TargetingStrategy targeting;
         [SerializeField] private FilterStrategy[] filters;
         [SerializeField] private EffectStrategy[] effects;
@@ -28,12 +28,12 @@ namespace ProjectX.Scripts.Framework.Abilities
         
         public Sprite Icon => icon;
         
-        public void Initialize(GameObject user, AbilitySlotEnum slotType)
+        public void Initialize(GameObject user, AbilitySlot abilitySlot)
         {
-            _abilityData = new AbilityData(user, slotType);
+            _abilityData = new AbilityData(user, abilitySlot);
         }
 
-        public void Use(Action<AbilityPhase> callback)
+        public void Use(Action callback)
         {
             var cooldownStore = _abilityData.User.GetComponent<CooldownStore>();
             

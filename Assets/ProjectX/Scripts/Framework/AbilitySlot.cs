@@ -10,16 +10,17 @@ namespace ProjectX.Scripts.Framework
     {
         [SerializeField] private AbilitySlotEnum slotType;
         [SerializeField] private Ability ability;
+        [SerializeField] private AnimationClip defaultAnimation;
         
         private GameObject _user;
 
         public void Initialize(GameObject user)
         {
             _user = user;
-            ability.Initialize(_user, slotType);
+            ability.Initialize(_user, this);
         }
 
-        public void UseAbility(Action<AbilityPhase> callback)
+        public void UseAbility(Action callback)
         {
             ability.Use(callback);
         }
@@ -27,7 +28,7 @@ namespace ProjectX.Scripts.Framework
         public void ChangeAbility(Ability newAbility)
         {
             ability = newAbility;
-            ability.Initialize(_user, slotType);
+            ability.Initialize(_user, this);
         }
 
         public Ability GetAbility()
@@ -38,6 +39,11 @@ namespace ProjectX.Scripts.Framework
         public AbilitySlotEnum GetSlotType()
         {
             return slotType;
+        }
+
+        public AnimationClip GetDefaultAnimation()
+        {
+            return defaultAnimation;
         }
     }
 }

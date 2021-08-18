@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Slice
   icon: {fileID: 21300000, guid: 7bf64b5591c24dc4da2d8e09dcae7d3f, type: 3}
-  animation: {fileID: 0}
+  description: 
   duration: 0
   cooldown: 5
   targeting: {fileID: 11400000, guid: a32063ef7d6df4c0eb9c4151f081eb57, type: 2}
   filters:
   - {fileID: 11400000, guid: d008392611ca3466d8c8eb79312df24b, type: 2}
   effects:
+  - {fileID: 11400000, guid: 87bb4c14dcb63f244b07dba72a652976, type: 2}
   - {fileID: 11400000, guid: cc84535da866f4514b92ad64d7389102, type: 2}
   - {fileID: 11400000, guid: ba07fecf5286a44d3afcb50076cf047f, type: 2}

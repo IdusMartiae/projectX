@@ -2,17 +2,15 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Tools
 {
-    public class GlobalRotation
+    public static class GlobalRotation
     {
-        public Quaternion WorldRotation { get; }
-
-        public GlobalRotation(Transform camera, Transform player)
+        public static Quaternion WorldRotation { get; private set; }
+        
+        public static void CalculateGlobalRotation(Vector3 playerForward)
         {
-            var cameraForward = camera.forward;
-            var playerForward = player.forward;
-        
+            var cameraForward = Camera.main!.transform.forward;
             cameraForward.y = 0;
-        
+
             WorldRotation = Quaternion.FromToRotation(playerForward, cameraForward);
         }
     }

@@ -11,13 +11,10 @@ namespace ProjectX.Scripts.Framework
 {
     public class InputSystem : MonoBehaviour
     {
-        private KeyBindings _keyBindings;
-        private GlobalRotation _globalRotation;
-        private MouseToWorldConverter _mouseToWorldConverter;
-        private AxisToMovementConverter _axisToMovementConverter;
-    
+        private static KeyBindings _keyBindings;
         private float _verticalAxis;
         private float _horizontalAxis;
+        
         private readonly Dictionary<AxisButtonType, float> _axisFloats = new Dictionary<AxisButtonType, float>
         {
             {
@@ -29,14 +26,13 @@ namespace ProjectX.Scripts.Framework
         };
 
         public Vector3 MovementDirection =>
-            _globalRotation.WorldRotation *
-            _axisToMovementConverter.GetMovementDirection(
+            GlobalRotation.WorldRotation *
+            AxisToMovementConverter.GetMovementDirection(
                 _horizontalAxis,
                 _verticalAxis);
-        public Vector3 MousePosition => _mouseToWorldConverter.GetWorldCoordinates(Input.mousePosition);
-    
-        public event Action<AbilitySlot> AbilitySlotPressed;
-        public event Action<AbilitySlot> AbilitySlotReleased;
+        
+        public event Action<AbilitySlotEnum> SlotDown;
+        public event Action<AbilitySlotEnum> SlotUp;
 
         [Inject]
         private void Construct(KeyBindings keyBindings)
@@ -46,23 +42,39 @@ namespace ProjectX.Scripts.Framework
 
         private void Start()
         {
-            var mainCamera = Camera.main;
-            var player = transform;
+            GlobalRotation.CalculateGlobalRotation(transform.forward);
+        }
         
-            _mouseToWorldConverter = new MouseToWorldConverter(mainCamera, player);
-            _globalRotation = new GlobalRotation(mainCamera!.transform, player);
-            _axisToMovementConverter = new AxisToMovementConverter();
+        // TODO THIS IS SIMPLER AND MUCH MORE ELEGANT
+        public static bool GetKeyDown(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKeyDown(keyBindingWrapper.MainKey) || Input.GetKeyDown(keyBindingWrapper.AlternativeKey);
         }
 
+        public static bool GetKey(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKey(keyBindingWrapper.MainKey) || Input.GetKey(keyBindingWrapper.AlternativeKey);
+        }
+        
+        public static bool GetKeyUp(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKeyUp(keyBindingWrapper.MainKey) || Input.GetKeyUp(keyBindingWrapper.AlternativeKey);
+        }
+        
+        //
+        
+        // TODO MIGHT GET RID OF THOSE
         public void Update()
         {
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyUp, ref _horizontalAxis);
             CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyUp, ref _verticalAxis);
-            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, AbilitySlotReleased);
-
-            // Return from method if there isn't any keys pressed
+            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, SlotUp);
+            
             if (!Input.anyKeyDown) return;
-            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, AbilitySlotPressed);
+            CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, SlotDown);
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyDown, ref _horizontalAxis);
             CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyDown, ref _verticalAxis);
         }

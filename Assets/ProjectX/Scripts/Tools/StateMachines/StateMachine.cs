@@ -23,8 +23,8 @@ namespace ProjectX.Scripts.Tools.StateMachines
         
             _currentState.Update();
         }
-
-        protected virtual void ChangeState(BaseState nextState)
+        
+        public virtual void ChangeState(BaseState nextState)
         {
             _currentState.OnStateExit();
             nextState.OnStateEnter();

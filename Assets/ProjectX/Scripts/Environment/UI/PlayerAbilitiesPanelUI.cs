@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ProjectX.Scripts.Framework;
 using ProjectX.Scripts.Tools.Enums;
@@ -26,7 +25,7 @@ namespace ProjectX.Scripts.Environment.UI
         {
             foreach (var abilitySlot in abilitySlots)
             {
-                _abilitySlotsUI[abilitySlot.GetSlotType()] = abilitySlot;
+                _abilitySlotsUI[abilitySlot.SlotEnum] = abilitySlot;
             }
         }
 
@@ -37,6 +36,10 @@ namespace ProjectX.Scripts.Environment.UI
 
         private void Update()
         {
+            foreach (var abilitySlot in _abilitySlotsUI.Values)
+            {
+                abilitySlot.UpdateUI();
+            }
         }
 
         public void ChangeAbilityInSlot(AbilitySlotEnum slot)
@@ -46,9 +49,9 @@ namespace ProjectX.Scripts.Environment.UI
 
         private void InitializeAbilitySlots()
         {
-            foreach (var abilitySlotUI in _abilitySlotsUI)
+            foreach (var abilitySlotUI in _abilitySlotsUI.Values)
             {
-                abilitySlotUI.Value.SetAbilitySlot(_playerAbilities.GetAbilitySlots()[abilitySlotUI.Key]);
+                abilitySlotUI.SetAbility(_playerAbilities.GetAbilitySlots()[abilitySlotUI.SlotEnum].GetAbility());
             }
         }
     }

@@ -3,8 +3,6 @@ using System.Linq;
 using ProjectX.Scripts.Framework.Abilities.Effects;
 using ProjectX.Scripts.Framework.Abilities.Filtering;
 using ProjectX.Scripts.Framework.Abilities.Targeting;
-using ProjectX.Scripts.Player;
-using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities
@@ -25,9 +23,9 @@ namespace ProjectX.Scripts.Framework.Abilities
         [SerializeField] private EffectStrategy[] effects;
 
         private AbilityData _abilityData;
-        
+
         public Sprite Icon => icon;
-        
+
         public void Initialize(GameObject user, AbilitySlot abilitySlot)
         {
             _abilityData = new AbilityData(user, abilitySlot);
@@ -36,14 +34,14 @@ namespace ProjectX.Scripts.Framework.Abilities
         public void Use(Action callback)
         {
             var cooldownStore = _abilityData.User.GetComponent<CooldownStore>();
-            
+
             if (cooldownStore.GetCooldownTimeRemaining(this) > 0)
             {
                 return;
             }
-            
+
             if (targeting == null) return;
-            
+
             targeting.AcquireTargets(_abilityData, () =>
                 {
                     cooldownStore.StartCooldown(this, cooldown);
@@ -59,7 +57,7 @@ namespace ProjectX.Scripts.Framework.Abilities
             {
                 return;
             }
-            
+
             data.Targets = filters.Aggregate(data.Targets, (current, strategy) => strategy.Filter(current));
         }
 

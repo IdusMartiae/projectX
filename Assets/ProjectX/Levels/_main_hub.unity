@@ -2052,6 +2052,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7584261e58c454f158f7cd0ac19eecca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAbilitySlots:
+  - slotType: 0
+    ability: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: 874a864f6ab39b446b79efd0a2e5eee2, type: 2}
+  - slotType: 1
+    ability: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: aadd5619ded3cc842b1c6c8f58341c53, type: 2}
+  - slotType: 2
+    ability: {fileID: 11400000, guid: 556e3ca682015ce488122f0488188ce1, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: f32a68d4cd05d0f4481c2e3ff5adab04, type: 2}
+  - slotType: 3
+    ability: {fileID: 11400000, guid: 04b996dd1edf84744aa7de900fd5a79b, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: c5e6765d417bb5c418c29c1288cf736f, type: 2}
+  - slotType: 4
+    ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: 1f856f121dcf8c643be194bd5381a094, type: 2}
+  - slotType: 5
+    ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: e4f85b4fba13d8d449d82f7c4a3c1e37, type: 2}
   playerPrefab: {fileID: 5660103553957104822, guid: 77713b303d0ff466f88e023478a878a2, type: 3}
   sceneVirtualCamera: {fileID: 18041934}
 --- !u!114 &1577335604

@@ -11,17 +11,20 @@ namespace ProjectX.Scripts.Framework.Abilities
         public Vector3 TargetedPoint { get; set; } = Vector3.zero;
         public AbilitySlot AbilitySlot { get; }
         public string TriggerName { get; }
-        
+
+        private readonly MonoBehaviour _monoBehaviour;
+
         public AbilityData(GameObject user, AbilitySlot abilitySlot)
         {
             User = user;
+            _monoBehaviour = user.GetComponent<MonoBehaviour>();
             AbilitySlot = abilitySlot;
             TriggerName = abilitySlot.GetSlotType().ToString();
         }
 
-        public void StartCoroutine(IEnumerator coroutine)
+        public void StartCoroutine(IEnumerator routine)
         {
-            User.GetComponent<MonoBehaviour>().StartCoroutine(coroutine);
+            _monoBehaviour.StartCoroutine(routine);
         }
     }
 }

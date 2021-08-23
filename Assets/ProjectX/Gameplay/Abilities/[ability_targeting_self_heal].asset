@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 313ffe0d3646b0c45a290d5c2c11b393, type: 3}
   description: 
   duration: 0
-  cooldown: 0
+  cooldown: 0.1
   targeting: {fileID: 11400000, guid: 54d808783972e1742b78c177b4eef62c, type: 2}
   filters: []
   effects:

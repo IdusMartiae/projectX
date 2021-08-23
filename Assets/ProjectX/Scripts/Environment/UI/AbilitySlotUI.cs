@@ -1,4 +1,3 @@
-using ProjectX.Scripts.Framework;
 using ProjectX.Scripts.Framework.Abilities;
 using ProjectX.Scripts.Tools;
 using ProjectX.Scripts.Tools.Enums;
@@ -9,7 +8,6 @@ using Zenject;
 
 namespace ProjectX.Scripts.Environment.UI
 {
-    // TODO ABILITY SLOT IS UPDATED ON PLAYER ABILITY COMPONENT EVENT
     public class AbilitySlotUI : MonoBehaviour
     {
         [SerializeField] private Image icon;
@@ -17,45 +15,44 @@ namespace ProjectX.Scripts.Environment.UI
         [SerializeField] private TMP_Text keyBinding;
         [SerializeField] private AbilitySlotEnum slotEnum;
 
-        private AbilitySlot _abilitySlot;
-        private Player.Player _player;
-        
-        [Inject] 
+        public AbilitySlotEnum SlotEnum => slotEnum;
+
+        private Ability _ability;
+        private CooldownStore _cooldownStore;
+
+        [Inject]
         private void Construct(Player.Player player)
         {
-            _player = player;
-        }
-        
-        private void Start()
-        {
-            keyBinding.text = KeyBindingsHelper.GetStringKeyBindingCombatMain(slotEnum, true);
+            _cooldownStore = player.GetComponent<CooldownStore>();
         }
 
-        private void Update()
+        private void Start()
         {
-            cooldownMask.fillAmount = _player
-                .GetComponent<CooldownStore>()
-                .GetPercentageRemaining(_abilitySlot.GetAbility());
-            ;
+            keyBinding.text = KeyBindingsKeyToStringConverter.GetStringKeyBindingCombatMain(slotEnum, true);
         }
 
         public void UpdateUI()
         {
-            if (_abilitySlot == null) return;
-
-            icon.sprite = _abilitySlot.GetAbility().Icon;
-            cooldownMask.sprite = _abilitySlot.GetAbility().Icon;
+            cooldownMask.fillAmount = _cooldownStore.GetPercentageRemaining(_ability);
         }
 
-        public void SetAbilitySlot(AbilitySlot abilitySlot)
+        private void SetAbilitySlotIcon()
         {
-            _abilitySlot = abilitySlot;
-            UpdateUI();
+            if (_ability == null)
+            {
+                return;
+            }
+
+            var abilityIcon = _ability.Icon;
+
+            icon.sprite = abilityIcon;
+            cooldownMask.sprite = abilityIcon;
         }
 
-        public AbilitySlotEnum GetSlotType()
+        public void SetAbility(Ability ability)
         {
-            return slotEnum;
+            _ability = ability;
+            SetAbilitySlotIcon();
         }
     }
 }

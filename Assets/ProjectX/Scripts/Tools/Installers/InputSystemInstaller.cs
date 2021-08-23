@@ -18,7 +18,7 @@ namespace ProjectX.Scripts.Tools.Installers
 
         private void Awake()
         {
-            KeyBindingsHelper.SetKeyBindings(keyBindings);
+            KeyBindingsKeyToStringConverter.SetKeyBindings(keyBindings);
         }
     }
 }

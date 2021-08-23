@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa5c8d805aa46a9b7a1486d9d96d88a, type: 3}
   m_Name: effect_delay_location_shape
   m_EditorClassIdentifier: 
-  delayTime: 2
+  delayTime: 1.8
   effectStrategies:
   - {fileID: 11400000, guid: e959a1120f2d846b8ab4ba2879be772b, type: 2}
   - {fileID: 11400000, guid: e91079fcb15993c479a4a57b3c801bd9, type: 2}

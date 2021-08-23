@@ -6,7 +6,7 @@ namespace ProjectX.Scripts.Tools
     /// <summary>
     /// Used to get string names of key bindings.
     /// </summary>
-    public static class KeyBindingsHelper
+    public static class KeyBindingsKeyToStringConverter
     {
         private static KeyBindings _keyBindings;
 

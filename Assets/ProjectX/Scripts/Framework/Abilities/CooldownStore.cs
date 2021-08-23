@@ -10,6 +10,7 @@ namespace ProjectX.Scripts.Framework.Abilities
         
         private void Update()
         {
+            // TODO Can be optimezed
             var keys = new List<Ability>(_cooldownTimers.Keys);
             
             foreach (var ability in keys)

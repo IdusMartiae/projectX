@@ -8,7 +8,7 @@ namespace ProjectX.Scripts.Framework
     {
         [SerializeField] private float maxHealth;
 
-        [SerializeField] private float _currentHealth;
+        private float _currentHealth;
 
         public Action<float, float, float> HealthChanged;
         

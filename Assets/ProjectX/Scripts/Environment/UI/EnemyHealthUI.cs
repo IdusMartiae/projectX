@@ -11,10 +11,15 @@ namespace ProjectX.Scripts.Environment.UI
         [SerializeField] private Image healthBarFill;
         [SerializeField] private TMP_Text healthPointText;
 
-        private void Update()
+        private void Start()
         {
-            healthBarFill.fillAmount = healthComponent.GetCurrentHealthPercent();
-            healthPointText.text = $"{healthComponent.CurrentHealth:F0}/{healthComponent.MaxHealth:F0}";
+            healthComponent.HealthChanged += UpdateUI;
+        }
+
+        private void UpdateUI(float healthPoints, float healthPercent, float maxHealth)
+        {
+            healthBarFill.fillAmount = healthPercent;
+            healthPointText.text = $"{healthPoints:F0}/{maxHealth:F0}";
         }
     }
 }

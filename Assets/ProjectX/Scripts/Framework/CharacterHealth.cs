@@ -1,3 +1,4 @@
+using System;
 using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
 
@@ -7,14 +8,14 @@ namespace ProjectX.Scripts.Framework
     {
         [SerializeField] private float maxHealth;
 
-        private float _currentHealth;
-        
-        // TODO REMOVE AFTER DEBUGGING
-        // ----------------------------
-        public float CurrentHealth => _currentHealth;
+        [SerializeField] private float _currentHealth;
 
-        public float MaxHealth => maxHealth;
-        // ----------------------------
+        public Action<float, float, float> HealthChanged;
+        
+        private void Awake()
+        {
+            HealthChanged = delegate{ };
+        }
 
         public void Start()
         {
@@ -24,6 +25,7 @@ namespace ProjectX.Scripts.Framework
         public void TakeDamage(float health)
         {
             _currentHealth = Mathf.Max(_currentHealth - health, 0);
+            HealthChanged.Invoke(_currentHealth, _currentHealth / maxHealth, maxHealth);
         }
 
         public void TakeDamage(float percent, PercentageType percentageType)
@@ -31,11 +33,13 @@ namespace ProjectX.Scripts.Framework
             var health = (percentageType == PercentageType.OfCurrentValue ? _currentHealth : maxHealth) *
                      (percent / 100f);
             _currentHealth = Mathf.Max(_currentHealth - health, 0);
+            HealthChanged.Invoke(_currentHealth, _currentHealth / maxHealth, maxHealth);
         }
         
         public void Heal(float health)
         {
             _currentHealth = Mathf.Min(_currentHealth + health, maxHealth);
+            HealthChanged.Invoke(_currentHealth, _currentHealth / maxHealth, maxHealth);
         }
 
         public void Heal(float percent, PercentageType percentageType)
@@ -43,12 +47,7 @@ namespace ProjectX.Scripts.Framework
             var health = (percentageType == PercentageType.OfCurrentValue ? _currentHealth : maxHealth) *
                          (percent / 100f);
             _currentHealth = Mathf.Min(_currentHealth + health, maxHealth);
-        }
-        
-        // TODO: Can later replace this with event, firing when needed for optimization purposes
-        public float GetCurrentHealthPercent()
-        {
-            return _currentHealth / maxHealth;
+            HealthChanged.Invoke(_currentHealth, _currentHealth / maxHealth, maxHealth);
         }
     }
 }

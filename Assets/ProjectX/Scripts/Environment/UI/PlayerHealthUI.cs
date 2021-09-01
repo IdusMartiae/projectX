@@ -16,10 +16,15 @@ namespace ProjectX.Scripts.Environment.UI
         {
             _playerHealth = player.GetComponent<CharacterHealth>();
         }
-        
-        private void Update()
+
+        private void Start()
         {
-            resourceMaterial.SetFloat(propertyName, _playerHealth.GetCurrentHealthPercent());
+            _playerHealth.HealthChanged += UpdateUI;
+        }
+
+        private void UpdateUI(float healthPoints, float healthPercent, float maxHealth)
+        {
+            resourceMaterial.SetFloat(propertyName, healthPercent);
         }
     }
 }

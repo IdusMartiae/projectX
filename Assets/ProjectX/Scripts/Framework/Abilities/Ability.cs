@@ -1,6 +1,5 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using ModestTree;
 using ProjectX.Scripts.Framework.Abilities.Effects;
 using ProjectX.Scripts.Framework.Abilities.Filtering;
 using ProjectX.Scripts.Framework.Abilities.Targeting;
@@ -8,12 +7,13 @@ using UnityEngine;
 
 namespace ProjectX.Scripts.Framework.Abilities
 {
-    [CreateAssetMenu(fileName = "ability_default", menuName = "Abilities/Ability")]
-    public class Ability : ScriptableObject, IAbility
+    [CreateAssetMenu(fileName = "base_ability", menuName = "Abilities/Ability")]
+    public class Ability : ScriptableObject
     {
-        [Header("Common")] [SerializeField] protected string title;
+        [Header("Common")] 
+        [SerializeField] protected string title;
         [SerializeField] protected Sprite icon;
-        [SerializeField] protected AnimationClip animation;
+        [SerializeField, Multiline(5)] protected string description;
 
         [Header("Parameters")] 
         [SerializeField] protected float duration;
@@ -21,53 +21,51 @@ namespace ProjectX.Scripts.Framework.Abilities
         [SerializeField] private TargetingStrategy targeting;
         [SerializeField] private FilterStrategy[] filters;
         [SerializeField] private EffectStrategy[] effects;
-        [SerializeField] private string message;
-        
-        private GameObject _player;
-        private bool _onCooldown;
 
-        // TODO: DELETE USES OF PLAYER DEPENDENCY LATER
-        
-        public void Use()
+        private AbilityData _abilityData;
+
+        public Sprite Icon => icon;
+
+        public void Initialize(GameObject user, AbilitySlot abilitySlot)
         {
-            targeting.AcquireTargets(_player, PrintTargets);
+            _abilityData = new AbilityData(user, abilitySlot);
         }
 
-        public void Cancel()
+        public void Use(Action callback)
         {
-        }
-        
-        public void Initialize(AbilitySlot abilitySlot)
-        {
-            _player = abilitySlot.PlayerTransform.gameObject;
-            targeting.InitializeTargeting(_player);
-        }
+            var cooldownStore = _abilityData.User.GetComponent<CooldownStore>();
 
-        public void Deinitialize()
-        {
-        }
-
-        private void PrintTargets(IEnumerable<GameObject> targetObjects)
-        {
-            if (targetObjects.IsEmpty())
+            if (cooldownStore.GetCooldownTimeRemaining(this) > 0)
             {
-                Debug.Log($"{message}: None");
+                return;
             }
-            else
-            {
-                if (filters != null)
-                {
-                    targetObjects = filters.Aggregate(
-                        targetObjects, (current, strategy) => strategy.Filter(current));
-                }
 
-                if (effects != null)
+            if (targeting == null) return;
+
+            targeting.AcquireTargets(_abilityData, () =>
                 {
-                    foreach (var effect in effects)
-                    {
-                        effect.ApplyEffect(_player, targetObjects, () => {});
-                    }
+                    cooldownStore.StartCooldown(this, cooldown);
+                    ApplyFilters(_abilityData);
+                    ApplyEffects(_abilityData);
                 }
+            );
+        }
+
+        private void ApplyFilters(AbilityData data)
+        {
+            if (filters == null)
+            {
+                return;
+            }
+
+            data.Targets = filters.Aggregate(data.Targets, (current, strategy) => strategy.Filter(current));
+        }
+
+        private void ApplyEffects(AbilityData data)
+        {
+            foreach (var effect in effects)
+            {
+                effect.ApplyEffect(data, () => { });
             }
         }
     }

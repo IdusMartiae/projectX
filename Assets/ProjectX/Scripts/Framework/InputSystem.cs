@@ -11,7 +11,7 @@ namespace ProjectX.Scripts.Framework
 {
     public class InputSystem : MonoBehaviour
     {
-        private KeyBindings _keyBindings;
+        private static KeyBindings _keyBindings;
         private float _verticalAxis;
         private float _horizontalAxis;
         
@@ -31,8 +31,8 @@ namespace ProjectX.Scripts.Framework
                 _horizontalAxis,
                 _verticalAxis);
         
-        public event Action<SlotType> SlotDown;
-        public event Action<SlotType> SlotUp;
+        public event Action<AbilitySlotEnum> SlotDown;
+        public event Action<AbilitySlotEnum> SlotUp;
 
         [Inject]
         private void Construct(KeyBindings keyBindings)
@@ -44,14 +44,35 @@ namespace ProjectX.Scripts.Framework
         {
             GlobalRotation.CalculateGlobalRotation(transform.forward);
         }
+        
+        // TODO THIS IS SIMPLER AND MUCH MORE ELEGANT
+        public static bool GetKeyDown(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKeyDown(keyBindingWrapper.MainKey) || Input.GetKeyDown(keyBindingWrapper.AlternativeKey);
+        }
 
+        public static bool GetKey(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKey(keyBindingWrapper.MainKey) || Input.GetKey(keyBindingWrapper.AlternativeKey);
+        }
+        
+        public static bool GetKeyUp(AbilitySlotEnum abilitySlotEnum)
+        {
+            var keyBindingWrapper = _keyBindings.Combat.Find(wrapper => wrapper.KeyAction == abilitySlotEnum);
+            return Input.GetKeyUp(keyBindingWrapper.MainKey) || Input.GetKeyUp(keyBindingWrapper.AlternativeKey);
+        }
+        
+        //
+        
+        // TODO MIGHT GET RID OF THOSE
         public void Update()
         {
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyUp, ref _horizontalAxis);
             CheckAxisByInputMethod(_keyBindings.MovementVerticalAxis, Input.GetKeyUp, ref _verticalAxis);
             CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyUp, SlotUp);
-
-            // Return from method if there isn't any keys pressed
+            
             if (!Input.anyKeyDown) return;
             CheckActionsByInputMethod(_keyBindings.Combat, Input.GetKeyDown, SlotDown);
             CheckAxisByInputMethod(_keyBindings.MovementHorizontalAxis, Input.GetKeyDown, ref _horizontalAxis);

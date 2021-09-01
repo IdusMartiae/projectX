@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using ProjectX.Scripts.Tools;
 using UnityEngine;
 
@@ -9,33 +8,42 @@ namespace ProjectX.Scripts.Framework.Abilities.Targeting
     [CreateAssetMenu(fileName = "targeting_directional_shape", menuName = "Abilities/Targeting/Directional Custom Shape")]
     public class DirectionalShapeTargeting : TargetingStrategy
     {
-        [SerializeField] private HitBox hitBox;
+        [SerializeField] private HitBox hitBoxPrefab;
+        [SerializeField] private float forwardOffset;
         
         private HitBox _hitBox;
-        private CharacterAbilities _characterAbilities;
-        
-        public override void AcquireTargets(GameObject caster, Action<IEnumerable<GameObject>> callback)
+
+        public override void AcquireTargets(AbilityData data, Action callback)
         {
-            _characterAbilities.StartCoroutine(AcquireTargetsShape(callback));
+            if (_hitBox == null)
+            {
+                InitializeTargeting(data.User);
+            }
+            
+            data.StartCoroutine(AcquireTargetsShape(data, callback));
         }
 
-        public override void InitializeTargeting(GameObject caster)
+        private void InitializeTargeting(GameObject user)
         {
-            _hitBox = Instantiate(hitBox, caster.transform);
+            _hitBox = Instantiate(hitBoxPrefab, user.transform);
+            _hitBox.transform.position += Vector3.forward * forwardOffset;
+            
             _hitBox.gameObject.SetActive(false);
-
-            _characterAbilities = caster.GetComponent<CharacterAbilities>();
         }
 
-        private IEnumerator AcquireTargetsShape(Action<IEnumerable<GameObject>> callback)
+        private IEnumerator AcquireTargetsShape(AbilityData data, Action callback)
         {
+            data.TargetedPoint = MouseWorldPosition.GetCoordinates();
+            
             _hitBox.gameObject.SetActive(true);
+            _hitBox.transform.LookAt(data.TargetedPoint);
             yield return null;
             
-            callback(_hitBox.Targets);
+            data.Targets = _hitBox.Targets;
             yield return null;
             
             _hitBox.gameObject.SetActive(false);
+            callback();
         }
         
     }

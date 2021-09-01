@@ -1,51 +1,49 @@
+using System;
 using ProjectX.Scripts.Framework.Abilities;
+using ProjectX.Scripts.Tools.Enums;
 using UnityEngine;
-using Zenject;
 
 namespace ProjectX.Scripts.Framework
 {
+    [Serializable]
     public class AbilitySlot
     {
-        private IAbility _ability;
-        public Transform PlayerTransform { get; }
-        public Animator Animator { get; }
-        public AnimatorOverrideController AnimatorOverrideController { get; }
-        public int TriggerId { get; }
-        public string ClipName { get; }
-
-        [Inject] public InputSystem InputSystem { get; }
-
-        public AbilitySlot(GameObject player, IAbility ability, string triggerName)
-        {
-            ClipName = triggerName;
-            
-            PlayerTransform = player.transform;
-            
-            Animator = player.GetComponent<Animator>();
-            AnimatorOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
-            Animator.runtimeAnimatorController = AnimatorOverrideController;
-            
-            TriggerId = Animator.StringToHash(triggerName);
-            
-            _ability = ability;
-            _ability.Initialize(this);
-        }
+        [SerializeField] private AbilitySlotEnum slotType;
+        [SerializeField] private Ability ability;
+        [SerializeField] private AnimationClip defaultAnimation;
         
-        public void UseAbility()
+        private GameObject _user;
+
+        public void Initialize(GameObject user)
         {
-            _ability.Use();
+            _user = user;
+            ability.Initialize(_user, this);
         }
 
-        public void CancelAbility()
+        public void UseAbility(Action callback)
         {
-            _ability.Cancel();
+            ability.Use(callback);
         }
 
-        public void ChangeAbility(IAbility newAbility)
+        public void ChangeAbility(Ability newAbility)
         {
-            _ability.Deinitialize();
-            _ability = newAbility;
-            _ability.Initialize(this);
+            ability = newAbility;
+            ability.Initialize(_user, this);
+        }
+
+        public Ability GetAbility()
+        {
+            return ability;
+        }
+
+        public AbilitySlotEnum GetSlotType()
+        {
+            return slotType;
+        }
+
+        public AnimationClip GetDefaultAnimation()
+        {
+            return defaultAnimation;
         }
     }
 }

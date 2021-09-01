@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d44ff91e76bf14d6c992cd90808790f2, type: 3}
   m_Name: targeting_directional_shape
   m_EditorClassIdentifier: 
-  hitBox: {fileID: 6913691506870097370, guid: a7514e40c37794d578ba0b7c06e1d93f, type: 3}
+  hitBoxPrefab: {fileID: 4788963121481461768, guid: a7514e40c37794d578ba0b7c06e1d93f, type: 3}
+  forwardOffset: 2

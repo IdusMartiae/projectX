@@ -1557,7 +1557,8 @@ GameObject:
   - component: {fileID: 1314834625789639059}
   - component: {fileID: 581071834325465005}
   - component: {fileID: 3454948111238079089}
-  - component: {fileID: -8393978121558326397}
+  - component: {fileID: -5720319867726611403}
+  - component: {fileID: -7321845921789762797}
   m_Layer: 6
   m_Name: player_paladin
   m_TagString: Untagged
@@ -1615,6 +1616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b9a4d8292124319952ae6ecd27c35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAbilities: {fileID: 3454948111238079089}
 --- !u!143 &1918570903315557579
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1672,11 +1674,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ae64c16f0242c8823df2d26875f8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primary: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
-  secondary: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
-  slot1: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
-  slot2: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
---- !u!114 &-8393978121558326397
+  abilitySlots:
+  - slotType: 0
+    ability: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: 874a864f6ab39b446b79efd0a2e5eee2, type: 2}
+  - slotType: 1
+    ability: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: aadd5619ded3cc842b1c6c8f58341c53, type: 2}
+  - slotType: 2
+    ability: {fileID: 11400000, guid: 556e3ca682015ce488122f0488188ce1, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: f32a68d4cd05d0f4481c2e3ff5adab04, type: 2}
+  - slotType: 3
+    ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: c5e6765d417bb5c418c29c1288cf736f, type: 2}
+  - slotType: 4
+    ability: {fileID: 11400000, guid: f3294c8cab2c04248a9244bb8cedcaf2, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: 1f856f121dcf8c643be194bd5381a094, type: 2}
+  - slotType: 5
+    ability: {fileID: 11400000, guid: 04b996dd1edf84744aa7de900fd5a79b, type: 2}
+    defaultAnimation: {fileID: 7400000, guid: e4f85b4fba13d8d449d82f7c4a3c1e37, type: 2}
+--- !u!114 &-5720319867726611403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660103553957104822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb679427632e422faad0491790ab1592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7321845921789762797
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1688,8 +1717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3bbdcbd05ae4309a46e46be0b760cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  _currentHealth: 0
+  maxHealth: 100
 --- !u!1 &5689218156334022328
 GameObject:
   m_ObjectHideFlags: 0

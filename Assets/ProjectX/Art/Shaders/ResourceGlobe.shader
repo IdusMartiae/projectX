@@ -2,7 +2,7 @@ Shader "UI/Unlit/ResourceGlobe"
 {
     Properties
     {
-        _Health("Health", Range(0, 1)) = 1
+        _Resource("Resource", Range(0, 1)) = 1
         _ShadowRadius("Shadow Radius", Range(0, 1)) = 0
         
         [NoScaleOffset] _TopTexture("Top layer texture", 2D) = "white" {}
@@ -29,7 +29,7 @@ Shader "UI/Unlit/ResourceGlobe"
 
             #include "UnityCG.cginc"
 
-            float _Health;
+            float _Resource;
             float _ShadowRadius;
             
             sampler2D _TopTexture;
@@ -71,10 +71,12 @@ Shader "UI/Unlit/ResourceGlobe"
                 float2 uvsCentered = i.uv * 2 - 1;
                 float circleMask = distance(uvsCentered, float2(0, 0));
                 float sdf = (circleMask - 0.8) * 5 - 3.26;
-                
-                float2 fisheyeProj = uvsCentered / sdf; // Apply barrel distortion
-                
-                clip(1 - circleMask); // Clip view in circular shape
+
+                // Apply barrel distortion
+                float2 fisheyeProj = uvsCentered / sdf; 
+
+                // Clip view in circular shape
+                clip(1 - circleMask); 
 
                 // Scroll texture over time
                 float deltaX = - _Time.x;
@@ -92,12 +94,13 @@ Shader "UI/Unlit/ResourceGlobe"
                 float4 topColorLayer = lerp(bottomColorLayer, _TopMainColor, topMask);
                                 
                 // Clip resource bar based on remaining health
-                float mask = _Health > i.uv.y;
-                clip(mask-1);
+                float mask = _Resource > i.uv.y;
+                clip( mask - 1);
+
+                // Apply shadow around the edge
+                float4 result = topColorLayer * ( -circleMask + 1.2 - _ShadowRadius); 
                 
-                //float4 finalColor = lerp(layer, layer1, liquidMask1);
-                
-                return topColorLayer * (- circleMask  + (1.2 - _ShadowRadius));
+                return result;
             }
             ENDCG
         }

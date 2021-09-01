@@ -1557,6 +1557,7 @@ GameObject:
   - component: {fileID: 1314834625789639059}
   - component: {fileID: 581071834325465005}
   - component: {fileID: 3454948111238079089}
+  - component: {fileID: -8393978121558326397}
   m_Layer: 6
   m_Name: player_paladin
   m_TagString: Untagged
@@ -1675,6 +1676,20 @@ MonoBehaviour:
   secondary: {fileID: 11400000, guid: 203e3792dfa624aeb84a4e21f4bccf88, type: 2}
   slot1: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
   slot2: {fileID: 11400000, guid: 67ab2eb3685154a40848d5ee1f1690b7, type: 2}
+--- !u!114 &-8393978121558326397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660103553957104822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3bbdcbd05ae4309a46e46be0b760cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  _currentHealth: 0
 --- !u!1 &5689218156334022328
 GameObject:
   m_ObjectHideFlags: 0

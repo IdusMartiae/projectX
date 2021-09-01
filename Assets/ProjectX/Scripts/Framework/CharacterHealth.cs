@@ -8,7 +8,7 @@ namespace ProjectX.Scripts.Framework
         [SerializeField] private float maxHealth;
 
         private float _currentHealth;
-
+        
         // TODO REMOVE AFTER DEBUGGING
         // ----------------------------
         public float CurrentHealth => _currentHealth;
@@ -43,6 +43,12 @@ namespace ProjectX.Scripts.Framework
             var health = (percentageType == PercentageType.OfCurrentValue ? _currentHealth : maxHealth) *
                          (percent / 100f);
             _currentHealth = Mathf.Min(_currentHealth + health, maxHealth);
+        }
+        
+        // TODO: Can later replace this with event, firing when needed for optimization purposes
+        public float GetCurrentHealthPercent()
+        {
+            return _currentHealth / maxHealth;
         }
     }
 }

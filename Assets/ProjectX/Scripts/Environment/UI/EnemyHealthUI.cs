@@ -1,4 +1,5 @@
-﻿using ProjectX.Scripts.Framework;
+﻿using System;
+using ProjectX.Scripts.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +12,14 @@ namespace ProjectX.Scripts.Environment.UI
         [SerializeField] private Image healthBarFill;
         [SerializeField] private TMP_Text healthPointText;
 
-        private void Start()
+        private void OnEnable()
         {
             healthComponent.HealthChanged += UpdateUI;
+        }
+
+        private void OnDisable()
+        {
+            healthComponent.HealthChanged -= UpdateUI;
         }
 
         private void UpdateUI(float healthPoints, float healthPercent, float maxHealth)

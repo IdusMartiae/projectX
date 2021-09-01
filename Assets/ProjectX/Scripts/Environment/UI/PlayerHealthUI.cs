@@ -6,10 +6,11 @@ namespace ProjectX.Scripts.Environment.UI
 {
     public class PlayerHealthUI : MonoBehaviour
     {
-        [SerializeField] private Material resourceMaterial;
         [SerializeField] private string propertyName;
-        
+
         private CharacterHealth _playerHealth;
+        private MaterialPropertyBlock _materialProperties;
+        private MeshRenderer _meshRenderer;
 
         [Inject]
         private void Construct(Player.Player player)
@@ -17,14 +18,26 @@ namespace ProjectX.Scripts.Environment.UI
             _playerHealth = player.GetComponent<CharacterHealth>();
         }
 
-        private void Start()
+        private void Awake()
+        {
+            _materialProperties = new MaterialPropertyBlock();
+            _meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        }
+
+        private void OnEnable()
         {
             _playerHealth.HealthChanged += UpdateUI;
         }
 
+        private void OnDisable()
+        {
+            _playerHealth.HealthChanged -= UpdateUI;
+        }
+
         private void UpdateUI(float healthPoints, float healthPercent, float maxHealth)
         {
-            resourceMaterial.SetFloat(propertyName, healthPercent);
+            _materialProperties.SetFloat(propertyName, healthPercent);
+            _meshRenderer.SetPropertyBlock(_materialProperties);
         }
     }
 }
